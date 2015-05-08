@@ -5,13 +5,17 @@ import com.twitter.finatra.Controller
 class SampleController extends Controller with SwaggerSupport {
   case class HelloResponse(text: String)
 
-  get("/hello", RouteDoc[HelloResponse]("The hello summary", "The hello notes")) { request =>
-    render.json(HelloResponse("hello")).toFuture
-  }
+  get("/hello/:name",
+    swagger("The hello summary",
+      notes = "The hello notes",
+      routeParam[String]("name", "the name"),
+      queryParam[Int]("age", "the age"),
+      response[HelloResponse](200, "The invocation is success"),
+      response(401, "")
+    )) { request =>
+    val name = request.routeParams("name")
+    val age = request.params.getOrElse("age", "20").toInt
 
-  get("/test", RouteDoc[Unit]("", "")) { request =>
-    render.ok.toFuture
+    render.json(HelloResponse(s"hello ${name}, your age is ${age}")).toFuture
   }
-
-  generateDocuments()
 }
