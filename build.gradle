@@ -1,3 +1,5 @@
+ext.scalaVersionMain = scalaVersion.substring(0, scalaVersion.lastIndexOf("."))
+
 apply plugin: 'scala'
 
 repositories {
@@ -8,11 +10,29 @@ repositories {
 }
 
 dependencies {
-  compile 'org.scala-lang:scala-library:2.10.4',
-    'com.twitter:finatra_2.10:1.6.0',
+  compile "org.scala-lang:scala-library:${scalaVersion}",
     'com.wordnik:swagger-core:1.5.3-M1'
 
-  testCompile 'org.scalatest:scalatest_2.10:2.2.4'
+  testCompile "org.scalatest:scalatest_${scalaVersionMain}:2.2.4"
+
+  if(finatraVersion.startsWith("1")) {
+    compile "com.twitter:finatra_${scalaVersionMain}:${finatraVersion}"
+  } else {
+    compile "com.twitter.finatra:finatra-http_${scalaVersionMain}:${finatraVersion}"
+  }
+}
+
+sourceSets {
+  main {
+    scala {
+      srcDirs = ['src/main/scala', "src/main/scala_${scalaVersionMain}"]
+    }
+  }
+  test {
+    scala {
+      srcDirs = ['src/test/scala', "src/test/scala_${scalaVersionMain}"]
+    }
+  }
 }
 
 compileJava {

@@ -1,6 +1,6 @@
 package com.github.xiaodongw.swagger.finatra;
 
-public enum Sex {
+public enum Gender {
     Male,
     Female
 }

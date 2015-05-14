@@ -2,7 +2,7 @@ package com.github.xiaodongw.swagger.finatra
 
 import com.twitter.finatra.{Controller, Request, ResponseBuilder}
 import com.twitter.util.Future
-import com.wordnik.swagger.models.parameters.{BodyParameter, PathParameter, QueryParameter}
+import com.wordnik.swagger.models.parameters._
 import com.wordnik.swagger.models.properties.RefProperty
 import com.wordnik.swagger.models.{Operation, RefModel, Response}
 import com.wordnik.swagger.util.Json
@@ -87,6 +87,33 @@ trait SwaggerSupport {
       .name(name)
       .description(description)
       .required(required)
+      .property(api.registerModel[T])
+
+    currentOperation.value.parameter(param)
+  }
+
+  protected def headerParam[T: TypeTag](name: String, description: String = ""): Unit = {
+    val param = new HeaderParameter()
+      .name(name)
+      .description(description)
+      .property(api.registerModel[T])
+
+    currentOperation.value.parameter(param)
+  }
+
+  protected def formParam[T: TypeTag](name: String, description: String = ""): Unit = {
+    val param = new FormParameter()
+      .name(name)
+      .description(description)
+      .property(api.registerModel[T])
+
+    currentOperation.value.parameter(param)
+  }
+
+  protected def cookieParam[T: TypeTag](name: String, description: String = ""): Unit = {
+    val param = new CookieParameter()
+      .name(name)
+      .description(description)
       .property(api.registerModel[T])
 
     currentOperation.value.parameter(param)

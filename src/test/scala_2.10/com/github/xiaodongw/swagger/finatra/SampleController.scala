@@ -4,12 +4,6 @@ import java.util.Date
 
 import com.twitter.finatra.Controller
 
-case class Address(street: String, zip: String)
-
-case class Student(name: String, sex: Sex, grade: Int, address: Address)
-
-case class Course(name: String, tag: String, capacity: Int)
-
 class SampleController extends Controller with SwaggerSupport {
   case class HelloResponse(text: String, time: Date)
 
@@ -19,12 +13,12 @@ class SampleController extends Controller with SwaggerSupport {
       tags("Student")
       routeParam[String]("id", "the student id")
       response[Student](200, "the student object",
-        example = Some(Student("Tom", Sex.Male, 4, Address("California Street", "94111"))))
+        example = Some(Student("Tom", Gender.Male, 4, Address("California Street", "94111"))))
       response(404, "the student is not found")
     }) { request =>
     val id = request.routeParams("id")
 
-    render.json(Student("Alice", Sex.Female, 4, Address("California Street", "94111"))).toFuture
+    render.json(Student("Alice", Gender.Female, 4, Address("California Street", "94111"))).toFuture
   }
 
   post("/students",
@@ -36,6 +30,27 @@ class SampleController extends Controller with SwaggerSupport {
       response(500, "internal error")
     }) { request =>
     val student = request.contentString
+
+    render.ok.toFuture
+  }
+
+  put("/students/:id",
+    swagger {
+      summary("Update the student")
+      tags("Student")
+      formParam[String]("name", "the student name")
+      formParam[Int]("grade", "the student grade")
+      routeParam[String]("id", "student ID")
+      cookieParam[String]("who", "who make the update")
+      headerParam[String]("token", "the token")
+      response(200, "the student is updated")
+      response(404, "the student is not found")
+    }) { request =>
+    val id = request.routeParams("id")
+    val name = request.getParam("name")
+    val grade = request.getIntParam("grade")
+    val who = request.cookies.getOrElse("who", "Sam")  //todo swagger-ui not set the cookie?
+    val token = request.headerMap("token")
 
     render.ok.toFuture
   }
