@@ -1,4 +1,4 @@
-package com.github.xiaodongw.finatra.swagger
+package com.github.xiaodongw.swagger.finatra
 
 import com.twitter.finatra.{Controller, Request, ResponseBuilder}
 import com.twitter.util.Future

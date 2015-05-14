@@ -18,6 +18,8 @@ project/plugins/project/
 
 # Intellij
 .idea
+*.iml
 
 # Gradle
 .gradle
+gradle.properties

@@ -1,4 +1,4 @@
-package com.github.xiaodongw.finatra.swagger
+package com.github.xiaodongw.swagger.finatra
 
 import java.util.Date
 
