@@ -16,8 +16,7 @@ repositories {
 dependencies {
   compile 'org.scala-lang:scala-library:2.10.4',
     'com.twitter:finatra_2.10:1.6.0',
-    'com.wordnik:swagger-core:1.5.3-M1',
-    files('libs/swagger-scala-module-1.0.0-SNAPSHOT.jar')
+    'com.wordnik:swagger-core:1.5.3-M1'
 
   testCompile 'org.scalatest:scalatest_2.10:2.2.4'
 }
