@@ -1,4 +1,4 @@
-package com.github.finatra.swagger
+package com.github.xiaodongw.finatra.swagger
 
 import com.twitter.finatra.Controller
 import com.wordnik.swagger.util.Json
@@ -9,6 +9,10 @@ class SwaggerController(docPath: String = "/api-docs") extends Controller {
 
     render.body(Json.mapper.writeValueAsString(swagger))
       .contentType("application/json").toFuture
+  }
+
+  get(docPath + "/ui") { request =>
+    redirect(docPath + "/ui/index.html").toFuture
   }
 
   get(docPath + "/ui/*") { request =>

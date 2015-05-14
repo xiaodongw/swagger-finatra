@@ -1,4 +1,4 @@
-package com.github.finatra.swagger
+package com.github.xiaodongw.finatra.swagger
 
 import java.util.Date
 
@@ -19,12 +19,12 @@ class SampleController extends Controller with SwaggerSupport {
       tags("Student")
       routeParam[String]("id", "the student id")
       response[Student](200, "the student object",
-        example = Some(Student("tom", Sex.Male, 4, Address("california street", "94111"))))
+        example = Some(Student("Tom", Sex.Male, 4, Address("California Street", "94111"))))
       response(404, "the student is not found")
     }) { request =>
     val id = request.routeParams("id")
 
-    render.json(Student("tom", Sex.Male, 4, Address("california street", "94111"))).toFuture
+    render.json(Student("Alice", Sex.Female, 4, Address("California Street", "94111"))).toFuture
   }
 
   post("/students",

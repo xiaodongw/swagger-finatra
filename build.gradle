@@ -1,6 +1,8 @@
 apply plugin: 'scala'
 
-group = 'com.github.finatra'
+group = 'com.github.xiaodongw'
+
+version = '0.1.0'
 
 repositories {
   mavenLocal()
@@ -13,8 +15,7 @@ dependencies {
   compile 'org.scala-lang:scala-library:2.10.4',
     'com.twitter:finatra_2.10:1.6.0',
     'com.wordnik:swagger-core:1.5.3-M1',
-    'io.swagger:swagger-scala-module_2.10:1.0.0-SNAPSHOT'
-
+    files('libs/swagger-scala-module-1.0.0-SNAPSHOT.jar')
 
   testCompile 'org.scalatest:scalatest_2.10:2.2.4'
 }

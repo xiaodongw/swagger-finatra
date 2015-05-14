@@ -1,4 +1,4 @@
-package com.github.finatra.swagger
+package com.github.xiaodongw.finatra.swagger
 
 import com.wordnik.swagger.converter.ModelConverters
 import com.wordnik.swagger.models.properties.Property
