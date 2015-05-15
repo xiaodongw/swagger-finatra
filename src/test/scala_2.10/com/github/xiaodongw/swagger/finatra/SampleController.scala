@@ -3,6 +3,7 @@ package com.github.xiaodongw.swagger.finatra
 import java.util.Date
 
 import com.twitter.finatra.Controller
+import org.joda.time.{DateTime, LocalDate}
 
 class SampleController extends Controller with SwaggerSupport {
   case class HelloResponse(text: String, time: Date)
@@ -13,12 +14,12 @@ class SampleController extends Controller with SwaggerSupport {
       tags("Student")
       routeParam[String]("id", "the student id")
       response[Student](200, "the student object",
-        example = Some(Student("Tom", Gender.Male, 4, Address("California Street", "94111"))))
+        example = Some(Student("Tom", Gender.Male, new LocalDate(), 4, Address("California Street", "94111"))))
       response(404, "the student is not found")
     }) { request =>
     val id = request.routeParams("id")
 
-    render.json(Student("Alice", Gender.Female, 4, Address("California Street", "94111"))).toFuture
+    render.json(Student("Alice", Gender.Female, new LocalDate(), 4, Address("California Street", "94111"))).toFuture
   }
 
   post("/students",
@@ -83,7 +84,7 @@ class SampleController extends Controller with SwaggerSupport {
       response[Course](200, "the courses detail")
       response(500, "internal error")
     }) { request =>
-    render.json(Course("calculation", "math", 20)).toFuture
+    render.json(Course(new DateTime(), "calculation", "math", CourseType.LAB, 20, BigDecimal(300.54))).toFuture
   }
 
   get("/courses/:courseId/student/:studentId",

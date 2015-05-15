@@ -13,7 +13,8 @@ dependencies {
   compile "org.scala-lang:scala-library:${scalaVersion}",
     'com.wordnik:swagger-core:1.5.3-M1'
 
-  testCompile "org.scalatest:scalatest_${scalaVersionMain}:2.2.4"
+  testCompile "org.scalatest:scalatest_${scalaVersionMain}:2.2.4",
+    'joda-time:joda-time:2.7'
 
   if(finatraVersion.startsWith("1")) {
     compile "com.twitter:finatra_${scalaVersionMain}:${finatraVersion}"

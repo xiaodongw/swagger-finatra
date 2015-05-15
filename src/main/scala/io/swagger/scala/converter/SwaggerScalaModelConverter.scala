@@ -16,11 +16,14 @@ import java.lang.reflect.Type
 import java.util.Iterator
 import java.lang.annotation.Annotation
 
+import org.joda.time.{LocalDate, DateTime}
+
 import scala.collection.JavaConverters._
 import scala.reflect.api.JavaUniverse
 
+//todo swagger-scala-module is in a very early stage, copied the source code here
 object SwaggerScalaModelConverter {
-  Json.mapper().registerModule(new DefaultScalaModule());
+  Json.mapper().registerModule(new DefaultScalaModule())
 }
 
 class SwaggerScalaModelConverter extends ModelConverter {
@@ -32,8 +35,11 @@ class SwaggerScalaModelConverter extends ModelConverter {
     val javaType = Json.mapper().constructType(`type`)
     val cls = javaType.getRawClass
 
+    if(cls == classOf[BigDecimal]) {
+      return new DecimalProperty()
+    }
     // handle scala enums
-    if(cls != null && cls.getFields().map(_.getName).contains("MODULE$")) {
+    else if(cls != null && cls.getFields().map(_.getName).contains("MODULE$")) {
       val javaUniverse = scala.reflect.runtime.universe
       val m = javaUniverse.runtimeMirror(getClass.getClassLoader())
       val moduleSymbol = m.staticModule(cls.getName())

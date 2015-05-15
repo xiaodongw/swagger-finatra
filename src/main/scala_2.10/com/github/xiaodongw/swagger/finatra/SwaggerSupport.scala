@@ -141,10 +141,14 @@ trait SwaggerSupport {
   protected def response[T: TypeTag](status: Int, description: String = "", example: Option[T] = None): Unit = {
     val ref = api.registerModel[T]
 
-    //todo not working
+    //todo not working, sample is not in the generated api, waiting for swagger fix
     example.foreach { e =>
       if(ref != null) {
-        ref.setExample(Json.mapper.writeValueAsString(e))
+        val example = Json.mapper.writeValueAsString(e)
+
+        ref.setExample(example)
+        //val model = api.swagger.getDefinitions.get(ref.asInstanceOf[RefProperty].getSimpleRef)
+        //model.setExample(example)
       }
     }
 
