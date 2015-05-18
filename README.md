@@ -39,8 +39,6 @@ Finatra 2.0.0.M1
 ## Add document information for you controller
 
     class SampleController extends Controller with SwaggerSupport {
-      case class HelloResponse(text: String, time: Date)
-    
       get("/students/:id",
         swagger { o =>
           o.summary("Read the detail information about the student")
