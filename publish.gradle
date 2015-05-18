@@ -25,8 +25,8 @@ signing {
 
 install {
   repositories.mavenInstaller {
-    pom.version = "${version}-snapshot"
-    pom.artifactId = "swagger-finatra${finatraVersionMain}_${scalaVersionMain}"
+    pom.version = "${version}"
+    pom.artifactId = "swagger-finatra${finatraVersionPublish}_${scalaVersionMain}"
   }
 }
 
@@ -44,8 +44,8 @@ uploadArchives {
       }
 
       pom.project {
-        name 'swagger-finatra'
-        artifactId "swagger-finatra_${scalaVersionMain}"
+        name "swagger-finatra${finatraVersionPublish}"
+        artifactId "swagger-finatra${finatraVersionPublish}_${scalaVersionMain}"
         packaging 'jar'
         // optionally artifactId can be defined here
         description 'Add Swagger support for Finatra to generate REST API docuemnt'
