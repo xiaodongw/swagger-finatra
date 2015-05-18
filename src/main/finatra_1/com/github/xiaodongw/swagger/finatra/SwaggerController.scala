@@ -4,6 +4,10 @@ import com.twitter.finatra._
 import com.wordnik.swagger.util.Json
 import org.apache.commons.io.IOUtils
 
+case class SwaggerView(path: String) extends View {
+  override def template: String = "templates/swagger-ui/index.mustache"
+}
+
 class SwaggerController(docPath: String = "/api-docs") extends Controller {
   get(docPath) { request =>
     val swagger = FinatraSwagger.swagger
@@ -12,11 +16,11 @@ class SwaggerController(docPath: String = "/api-docs") extends Controller {
       .contentType("application/json").toFuture
   }
 
-  get(docPath + "/ui") { request =>
-    redirect(docPath + "/ui/index.html").toFuture
+  get(s"${docPath}/ui") { request =>
+    render.view(SwaggerView(docPath)).toFuture
   }
 
-  get(docPath + "/ui/*") { request =>
+  get(s"${docPath}/ui/*") { request =>
     val res = request.path.replace(docPath + "/ui/", "")
 
     resource(s"/public/swagger-ui/${res}").toFuture

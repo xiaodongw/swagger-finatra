@@ -1,4 +1,20 @@
-ext.scalaVersionMain = scalaVersion.substring(0, scalaVersion.lastIndexOf("."))
+if(project.hasProperty("scalaVersion")) {
+  ext.scalaVersionMain = scalaVersion.substring(0, scalaVersion.lastIndexOf("."))
+} else {
+  ext.scalaVersionMain = "2.10"
+  ext.scalaVersion = "2.10.4"
+}
+
+if(!project.hasProperty("finatraVersion")) {
+  ext.finatraVersion = "1.6.0"
+}
+
+ext.finatraVersionMain = finatraVersion.substring(0, 1)
+
+println("Scala Version: ${scalaVersion}")
+println("Scala Version Main: ${scalaVersionMain}")
+println("Finatra Version: ${finatraVersion}")
+println("Finatra Version Main: ${finatraVersionMain}")
 
 apply plugin: 'scala'
 
@@ -26,12 +42,12 @@ dependencies {
 sourceSets {
   main {
     scala {
-      srcDirs = ['src/main/scala', "src/main/scala_${scalaVersionMain}"]
+      srcDirs = ['src/main/scala', "src/main/finatra_${finatraVersionMain}"]
     }
   }
   test {
     scala {
-      srcDirs = ['src/test/scala', "src/test/scala_${scalaVersionMain}"]
+      srcDirs = ['src/test/scala', "src/test/finatra_${finatraVersionMain}"]
     }
   }
 }
