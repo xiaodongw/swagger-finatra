@@ -68,7 +68,12 @@ class OperationWrap {
 
   def bodyParam[T: TypeTag](name: String, description: String = "", example: Option[T] = None): Unit = {
     val schema = swagger.registerModel[T]
-    val model = if(schema == null) null else new RefModel(schema.asInstanceOf[RefProperty].getSimpleRef)
+
+    val model = schema match {
+      case null => null
+      case p: RefProperty => new RefModel(p.getSimpleRef)
+      case _ => null  //todo map ArrayProperty to ArrayModel?
+    }
 
     //todo not working
     example.foreach { e =>
@@ -101,7 +106,7 @@ class OperationWrap {
 
     val param = new Response()
       .description(description)
-      .schema(swagger.registerModel[T])
+      .schema(ref)
 
     operation.response(status, param)
   }
