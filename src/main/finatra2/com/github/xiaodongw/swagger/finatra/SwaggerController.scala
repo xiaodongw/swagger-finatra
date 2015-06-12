@@ -6,7 +6,7 @@ import com.twitter.finatra.response.Mustache
 import com.wordnik.swagger.util.Json
 
 @Mustache("index")
-case class SwaggerView(path: String)
+case class SwaggerView(title: String, path: String)
 
 class SwaggerController(docPath: String = "/api-docs") extends Controller {
   get(docPath) { request: Request =>
@@ -17,7 +17,9 @@ class SwaggerController(docPath: String = "/api-docs") extends Controller {
   }
 
   get(s"${docPath}/ui") { request: Request =>
-    val view = SwaggerView(docPath)
+    val swagger = FinatraSwagger.swagger
+
+    val view = SwaggerView(swagger.getInfo.getTitle, docPath)
     response.ok.view("swagger-ui/index.mustache", view).toFuture
   }
 

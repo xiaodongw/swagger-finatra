@@ -3,7 +3,15 @@ apply plugin: 'signing'
 
 group = 'com.github.xiaodongw'
 
-version = '0.1.0-SNAPSHOT'
+version = '0.2.0'
+
+if(!project.hasProperty("ossrhUsername")) {
+  ext.ossrhUsername = ""
+}
+
+if(!project.hasProperty("ossrhPassword")) {
+  ext.ossrhPassword = ""
+}
 
 task javadocJar(type: Jar) {
   classifier = 'javadoc'

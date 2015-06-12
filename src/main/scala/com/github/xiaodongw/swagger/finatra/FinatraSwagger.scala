@@ -11,7 +11,19 @@ import scala.reflect.runtime._
 import scala.collection.JavaConverters._
 
 object FinatraSwagger {
-  private[this] val _swagger = new Swagger
+  private[this] val _swagger = {
+    val swagger = new Swagger
+
+    //default info
+    val info = new Info()
+      .description("Description")
+      .version("Version")
+      .title("Title")
+
+    swagger.info(info)
+
+    swagger
+  }
   Json.mapper.registerModule(DefaultScalaModule)
 
   def registerModel[T: TypeTag]: Property = {

@@ -4,7 +4,7 @@ import com.twitter.finatra._
 import com.wordnik.swagger.util.Json
 import org.apache.commons.io.IOUtils
 
-case class SwaggerView(path: String) extends View {
+case class SwaggerView(title: String, path: String) extends View {
   override def template: String = "templates/swagger-ui/index.mustache"
 }
 
@@ -17,7 +17,9 @@ class SwaggerController(docPath: String = "/api-docs") extends Controller {
   }
 
   get(s"${docPath}/ui") { request =>
-    render.view(SwaggerView(docPath)).toFuture
+    val swagger = FinatraSwagger.swagger
+
+    render.view(SwaggerView(swagger.getInfo.getTitle, docPath)).toFuture
   }
 
   get(s"${docPath}/ui/*") { request =>
