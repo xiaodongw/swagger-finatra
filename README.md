@@ -13,15 +13,15 @@ Add Dependency
 
 Scala 2.10, Finatra 1.6.0
 
-	compile "com.github.xiaodongw:swagger-finatra_2.10:0.1.0-SNAPSHOT"
+	compile "com.github.xiaodongw:swagger-finatra_2.10:0.3.0"
 
-Scala 2.10, Finatra 2.0.0.M1
+Scala 2.10, Finatra 2.1.0
 
-	compile "com.github.xiaodongw:swagger-finatra2_2.10:0.1.0-SNAPSHOT"
+	compile "com.github.xiaodongw:swagger-finatra2_2.10:0.3.0"
 
-Scala 2.11, Finatra 2.0.0.M1
+Scala 2.11, Finatra 2.1.0
 
-	compile "com.github.xiaodongw:swagger-finatra2_2.11:0.1.0-SNAPSHOT"
+	compile "com.github.xiaodongw:swagger-finatra2_2.11:0.3.0"
 
 ## SBT
 	resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
@@ -30,11 +30,11 @@ Add Dependency
 
 Finatra 1.6.0
 
-	libraryDependencies += "com.github.xiaodongw" %% "swagger-finatra" % "0.1.0-SNAPSHOT"
+	libraryDependencies += "com.github.xiaodongw" %% "swagger-finatra" % "0.3.0"
 
-Finatra 2.0.0.M1
+Finatra 2.1.0
 
-    libraryDependencies += "com.github.xiaodongw" %% "swagger-finatra2" % "0.1.0-SNAPSHOT"
+    libraryDependencies += "com.github.xiaodongw" %% "swagger-finatra2" % "0.3.0"
 
 ## Add document information for you controller
 

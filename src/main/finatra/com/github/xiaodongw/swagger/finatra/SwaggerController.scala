@@ -1,7 +1,7 @@
 package com.github.xiaodongw.swagger.finatra
 
 import com.twitter.finatra._
-import com.wordnik.swagger.util.Json
+import io.swagger.util.Json
 import org.apache.commons.io.IOUtils
 
 case class SwaggerView(title: String, path: String) extends View {

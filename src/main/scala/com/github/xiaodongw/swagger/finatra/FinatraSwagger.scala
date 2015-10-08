@@ -1,10 +1,10 @@
 package com.github.xiaodongw.swagger.finatra
 
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import com.wordnik.swagger.converter.ModelConverters
-import com.wordnik.swagger.models.properties.Property
-import com.wordnik.swagger.models.{Info, Path, Swagger, Operation}
-import com.wordnik.swagger.util.Json
+import io.swagger.converter.ModelConverters
+import io.swagger.models.properties.Property
+import io.swagger.models.{Info, Path, Swagger, Operation}
+import io.swagger.util.Json
 
 import scala.reflect.runtime.universe._
 import scala.reflect.runtime._
@@ -24,7 +24,6 @@ object FinatraSwagger {
 
     swagger
   }
-  Json.mapper.registerModule(DefaultScalaModule)
 
   def registerModel[T: TypeTag]: Property = {
     val paramType: Type = typeOf[T]

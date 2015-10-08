@@ -2,7 +2,7 @@ package com.github.xiaodongw.swagger.finatra
 
 import java.util.Date
 
-import com.twitter.finagle.http.Request
+import com.twitter.finagle.httpx.Request
 import com.twitter.finatra.http.Controller
 import org.joda.time.{DateTime, LocalDate}
 
@@ -15,12 +15,12 @@ class SampleController extends Controller with SwaggerSupport {
       o.tags("Student")
       o.routeParam[String]("id", "the student id")
       o.response[Student](200, "the student object",
-        example = Some(Student("Tom", Gender.Male, new LocalDate(), 4, Address("California Street", "94111"))))
+        example = Some(Student("Tom", Gender.Male, new LocalDate(), 4, Some(Address("California Street", "94111")))))
       o.response(404, "the student is not found")
     }) { request: Request =>
     val id = request.getParam("id")
 
-    response.ok.json(Student("Alice", Gender.Female, new LocalDate(), 4, Address("California Street", "94111"))).toFuture
+    response.ok.json(Student("Alice", Gender.Female, new LocalDate(), 4, Some(Address("California Street", "94111")))).toFuture
   }
 
   post("/students",
@@ -84,7 +84,7 @@ class SampleController extends Controller with SwaggerSupport {
       o.response[Course](200, "the courses detail")
       o.response(500, "internal error")
     }) { request: Request =>
-    response.ok.json(Course(new DateTime(), "calculation", "math", CourseType.LAB, 20, BigDecimal(300.54))).toFuture
+    response.ok.json(Course(new DateTime(), "calculation", Seq("math"), CourseType.LAB, 20, BigDecimal(300.54))).toFuture
   }
 
   get("/courses/:courseId/student/:studentId",

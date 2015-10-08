@@ -31,7 +31,8 @@ repositories {
 
 dependencies {
   compile "org.scala-lang:scala-library:${scalaVersion}",
-    'com.wordnik:swagger-core:1.5.3-M1'
+    'io.swagger:swagger-core:1.5.3',
+    "io.swagger:swagger-scala-module_${scalaVersionMain}:1.0.0"
 
   testCompile "org.scalatest:scalatest_${scalaVersionMain}:2.2.4",
     'joda-time:joda-time:2.7'
@@ -65,7 +66,7 @@ tasks.withType(ScalaCompile) {
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '2.4'
+  gradleVersion = '2.7'
 }
 
 apply from: 'publish.gradle'

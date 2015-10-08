@@ -1,9 +1,9 @@
 package com.github.xiaodongw.swagger.finatra
 
-import com.wordnik.swagger.models.properties.RefProperty
-import com.wordnik.swagger.models.{Response, RefModel, Operation}
-import com.wordnik.swagger.models.parameters._
-import com.wordnik.swagger.util.Json
+import io.swagger.models.properties.RefProperty
+import io.swagger.models.{Response, RefModel, Operation}
+import io.swagger.models.parameters._
+import io.swagger.util.Json
 import scala.collection.JavaConverters._
 
 import scala.reflect.runtime.universe._
