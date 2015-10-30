@@ -6,7 +6,7 @@ Add Swagger support for Finatra web framework.
 Add repository
 
 	repositories {
-	  maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+	  maven { url "https://oss.sonatype.org/content/repositories/releases/" }
 	}
 
 Add Dependency
@@ -24,7 +24,7 @@ Scala 2.11, Finatra 2.1.0
 	compile "com.github.xiaodongw:swagger-finatra2_2.11:0.3.0"
 
 ## SBT
-	resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+	resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/releases/"
 
 Add Dependency
 
