@@ -8,6 +8,6 @@ object SampleApp extends FinatraServer {
     version = "1.0.1",
     title = "Student / Course Management API")
 
-  register(new SwaggerController())
+  register(new SwaggerController)
   register(new SampleController)
 }

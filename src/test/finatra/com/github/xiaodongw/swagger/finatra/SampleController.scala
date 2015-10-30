@@ -2,7 +2,7 @@ package com.github.xiaodongw.swagger.finatra
 
 import java.util.Date
 
-import com.twitter.finatra.http.Controller
+import com.twitter.finatra.Controller
 import org.joda.time.{DateTime, LocalDate}
 
 class SampleController extends Controller with SwaggerSupport {
