@@ -71,7 +71,7 @@ task wrapper(type: Wrapper) {
 
 apply from: 'publish.gradle'
 
-task runSampleApp(type: JavaExec) {
+task runSampleApp(type: JavaExec, description: 'Run the sample application.') {
   classpath sourceSets.test.runtimeClasspath
   main = "com.github.xiaodongw.swagger.finatra.SampleApp"
 }
