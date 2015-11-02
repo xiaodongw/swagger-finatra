@@ -1,5 +1,5 @@
 # swagger-finatra
-Add Swagger support for Finatra (1.6 and 2.1) web framework.
+Add Swagger support for Finatra web framework.
 
 # Getting started
 ## Gradle
@@ -11,22 +11,18 @@ Add Swagger support for Finatra (1.6 and 2.1) web framework.
 
 #### Add Dependency
 
-##### Scala 2.10, Finatra 2.1.0
+##### Scala 2.10, Finatra 1.6.0
 
-	compile "com.github.xiaodongw:swagger-finatra2_2.10:0.3.0"
-
-##### Scala 2.11, Finatra 2.1.0
-
-	compile "com.github.xiaodongw:swagger-finatra2_2.11:0.3.0"
+	compile "com.github.xiaodongw:swagger-finatra_2.10:0.3.0"
 
 ## SBT
 	resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/releases/"
 
 #### Add Dependency
 
-##### Finatra 2.1.0
+##### Finatra 1.6.0
 
-    libraryDependencies += "com.github.xiaodongw" %% "swagger-finatra2" % "0.3.0"
+	libraryDependencies += "com.github.xiaodongw" %% "swagger-finatra" % "0.3.0"
 
 ## Add document information for you controller
 
@@ -44,22 +40,18 @@ Add Swagger support for Finatra (1.6 and 2.1) web framework.
 
 ## Add document controller
 
-##### Finatra 2.1.0
-    object SampleApp extends HttpServer {
+##### Finatra 1.6.0
+
+    object SampleApp extends FinatraServer {
       FinatraSwagger.registerInfo(
         description = "The Student / Course management API, this is a sample for swagger document generation",
         version = "1.0.1",
         title = "Student / Course Management API")
 
-      override def configureHttp(router: HttpRouter) {
-        router
-          .add(new SwaggerController)
-          ...
-      }
+      register(new SwaggerController())
+      ...
     }
-Swagger API document: ```http://localhost:8888/api-docs```
 
-Swagger UI: ```http://localhost:8888/api-docs/ui```
+Swagger API document: ```http://localhost:7070/api-docs```
 
-# Finatra 1.6
-Previous version of Finatra (1.6) is also supported, Check [here](finatra1.md) for the guide.
+Swagger UI: ```http://localhost:7070/api-docs/ui```
