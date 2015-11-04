@@ -11,9 +11,11 @@ class SampleController extends Controller with SwaggerSupport {
 
   get("/students/:id",
     swagger { o =>
-      o.summary("Read the detail information about the student")
+      o.summary("Read student information")
+      o.description("Read the detail information about the student.")
       o.tags("Student")
       o.routeParam[String]("id", "the student id")
+      o.produces("application/json")
       o.response[Student](200, "the student object",
         example = Some(Student("Tom", Gender.Male, new LocalDate(), 4, Some(Address("California Street", "94111")))))
       o.response(404, "the student is not found")
@@ -95,6 +97,7 @@ class SampleController extends Controller with SwaggerSupport {
       o.routeParam[String]("studentId", "the student id")
       o.response[Boolean](200, "true / false")
       o.response(500, "internal error")
+      o.deprecated(true)
     }) { request: Request =>
     response.ok.json(true).toFuture
   }

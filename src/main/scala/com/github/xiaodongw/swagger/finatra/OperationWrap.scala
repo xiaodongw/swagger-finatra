@@ -20,16 +20,17 @@ class OperationWrap {
     operation.setTags(values.asJava)
   }
 
-  def routeParam[T: TypeTag](name: String, description: String = ""): Unit = {
+  def routeParam[T: TypeTag](name: String, description: String = "", required: Boolean = true): Unit = {
     val param = new PathParameter()
       .name(name)
       .description(description)
+      .required(required)
       .property(swagger.registerModel[T])
 
     operation.parameter(param)
   }
 
-  def queryParam[T: TypeTag](name: String, description: String = "", required: Boolean = false): Unit = {
+  def queryParam[T: TypeTag](name: String, description: String = "", required: Boolean = true): Unit = {
     val param = new QueryParameter()
       .name(name)
       .description(description)
@@ -39,28 +40,31 @@ class OperationWrap {
     operation.parameter(param)
   }
 
-  def headerParam[T: TypeTag](name: String, description: String = ""): Unit = {
+  def headerParam[T: TypeTag](name: String, description: String = "", required: Boolean = true): Unit = {
     val param = new HeaderParameter()
       .name(name)
       .description(description)
+      .required(required)
       .property(swagger.registerModel[T])
 
     operation.parameter(param)
   }
 
-  def formParam[T: TypeTag](name: String, description: String = ""): Unit = {
+  def formParam[T: TypeTag](name: String, description: String = "", required: Boolean = true): Unit = {
     val param = new FormParameter()
       .name(name)
       .description(description)
+      .required(required)
       .property(swagger.registerModel[T])
 
     operation.parameter(param)
   }
 
-  def cookieParam[T: TypeTag](name: String, description: String = ""): Unit = {
+  def cookieParam[T: TypeTag](name: String, description: String = "", required: Boolean = true): Unit = {
     val param = new CookieParameter()
       .name(name)
       .description(description)
+      .required(required)
       .property(swagger.registerModel[T])
 
     operation.parameter(param)
@@ -109,5 +113,21 @@ class OperationWrap {
       .schema(ref)
 
     operation.response(status, param)
+  }
+
+  def description(value: String): Unit = {
+    operation.setDescription(value)
+  }
+
+  def consumes(values: String*): Unit = {
+    operation.setConsumes(values.asJava)
+  }
+
+  def produces(values: String*): Unit = {
+    operation.setProduces(values.asJava)
+  }
+
+  def deprecated(value: Boolean): Unit = {
+    operation.deprecated(value)
   }
 }
