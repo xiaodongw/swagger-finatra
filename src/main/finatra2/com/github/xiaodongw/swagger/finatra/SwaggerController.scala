@@ -1,6 +1,6 @@
 package com.github.xiaodongw.swagger.finatra
 
-import com.twitter.finagle.httpx.Request
+import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
 import com.twitter.finatra.response.Mustache
 import io.swagger.util.Json
