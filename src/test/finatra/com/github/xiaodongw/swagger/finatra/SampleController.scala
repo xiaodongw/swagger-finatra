@@ -8,18 +8,20 @@ import org.joda.time.{DateTime, LocalDate}
 class SampleController extends Controller with SwaggerSupport {
   case class HelloResponse(text: String, time: Date)
 
+  override val finatraSwager: FinatraSwagger = SampleSwagger
+
   get("/students/:id",
     swagger { o =>
       o.summary("Read the detail information about the student")
       o.tags("Student")
       o.routeParam[String]("id", "the student id")
       o.response[Student](200, "the student object",
-        example = Some(Student("Tom", Gender.Male, new LocalDate(), 4, Some(Address("California Street", "94111")))))
+        example = Some(Student("Tom", "Wang", Gender.Male, new LocalDate(), 4, Some(Address("California Street", "94111")))))
       o.response(404, "the student is not found")
     }) { request =>
     val id = request.routeParams("id")
 
-    render.json(Student("Alice", Gender.Female, new LocalDate(), 4, Some(Address("California Street", "94111")))).toFuture
+    render.json(Student("Alice", "Wang", Gender.Female, new LocalDate(), 4, Some(Address("California Street", "94111")))).toFuture
   }
 
   post("/students",

@@ -1,16 +1,14 @@
 package com.github.xiaodongw.swagger.finatra
 
-import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import io.swagger.converter.ModelConverters
 import io.swagger.models.properties.Property
-import io.swagger.models.{Info, Path, Swagger, Operation}
-import io.swagger.util.Json
+import io.swagger.models.{Info, Operation, Path, Swagger}
 
-import scala.reflect.runtime.universe._
-import scala.reflect.runtime._
 import scala.collection.JavaConverters._
+import scala.reflect.runtime._
+import scala.reflect.runtime.universe._
 
-object FinatraSwagger {
+class FinatraSwagger() {
   private[this] val _swagger = {
     val swagger = new Swagger
 
@@ -32,12 +30,12 @@ object FinatraSwagger {
     } else {
       val typeClass = currentMirror.runtimeClass(paramType)
 
-      val modelConverter = ModelConverters.getInstance()
-      val models = modelConverter.readAll(typeClass)
+      val modelConverters = ModelConverters.getInstance()
+      val models = modelConverters.readAll(typeClass)
       for(entry <- models.entrySet().asScala) {
         _swagger.addDefinition(entry.getKey, entry.getValue)
       }
-      val schema = modelConverter.readAsProperty(typeClass)
+      val schema = modelConverters.readAsProperty(typeClass)
 
       schema
     }

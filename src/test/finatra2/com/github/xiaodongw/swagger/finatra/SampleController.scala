@@ -7,6 +7,8 @@ import com.twitter.finatra.http.Controller
 import org.joda.time.{DateTime, LocalDate}
 
 class SampleController extends Controller with SwaggerSupport {
+  override val finatraSwager: FinatraSwagger = SampleSwagger
+
   case class HelloResponse(text: String, time: Date)
 
   get("/students/:id",
@@ -17,12 +19,12 @@ class SampleController extends Controller with SwaggerSupport {
       o.routeParam[String]("id", "the student id")
       o.produces("application/json")
       o.response[Student](200, "the student object",
-        example = Some(Student("Tom", Gender.Male, new LocalDate(), 4, Some(Address("California Street", "94111")))))
+        example = Some(Student("Tom", "Wang", Gender.Male, new LocalDate(), 4, Some(Address("California Street", "94111")))))
       o.response(404, "the student is not found")
     }) { request: Request =>
     val id = request.getParam("id")
 
-    response.ok.json(Student("Alice", Gender.Female, new LocalDate(), 4, Some(Address("California Street", "94111")))).toFuture
+    response.ok.json(Student("Alice", "Wang", Gender.Female, new LocalDate(), 4, Some(Address("California Street", "94111")))).toFuture
   }
 
   post("/students",
@@ -32,9 +34,9 @@ class SampleController extends Controller with SwaggerSupport {
       o.bodyParam[Student]("student", "the student details")
       o.response(200, "the student is created")
       o.response(500, "internal error")
-    }) { request: Request =>
-    val student = request.contentString
-    response.ok.toFuture
+    }) { student: Student =>
+    //val student = request.contentString
+    response.ok.json(student).toFuture
   }
 
   put("/students/:id",

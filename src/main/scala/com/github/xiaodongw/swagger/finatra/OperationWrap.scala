@@ -8,9 +8,8 @@ import scala.collection.JavaConverters._
 
 import scala.reflect.runtime.universe._
 
-class OperationWrap {
+class OperationWrap(finatraSwagger: FinatraSwagger) {
   private[finatra] val operation = new Operation
-  private[this] val swagger = FinatraSwagger
 
   def summary(value: String): Unit = {
     operation.summary(value)
@@ -25,7 +24,7 @@ class OperationWrap {
       .name(name)
       .description(description)
       .required(required)
-      .property(swagger.registerModel[T])
+      .property(finatraSwagger.registerModel[T])
 
     operation.parameter(param)
   }
@@ -35,7 +34,7 @@ class OperationWrap {
       .name(name)
       .description(description)
       .required(required)
-      .property(swagger.registerModel[T])
+      .property(finatraSwagger.registerModel[T])
 
     operation.parameter(param)
   }
@@ -45,7 +44,7 @@ class OperationWrap {
       .name(name)
       .description(description)
       .required(required)
-      .property(swagger.registerModel[T])
+      .property(finatraSwagger.registerModel[T])
 
     operation.parameter(param)
   }
@@ -55,7 +54,7 @@ class OperationWrap {
       .name(name)
       .description(description)
       .required(required)
-      .property(swagger.registerModel[T])
+      .property(finatraSwagger.registerModel[T])
 
     operation.parameter(param)
   }
@@ -65,13 +64,13 @@ class OperationWrap {
       .name(name)
       .description(description)
       .required(required)
-      .property(swagger.registerModel[T])
+      .property(finatraSwagger.registerModel[T])
 
     operation.parameter(param)
   }
 
   def bodyParam[T: TypeTag](name: String, description: String = "", example: Option[T] = None): Unit = {
-    val schema = swagger.registerModel[T]
+    val schema = finatraSwagger.registerModel[T]
 
     val model = schema match {
       case null => null
@@ -95,7 +94,7 @@ class OperationWrap {
   }
 
   def response[T: TypeTag](status: Int, description: String = "", example: Option[T] = None): Unit = {
-    val ref = swagger.registerModel[T]
+    val ref = finatraSwagger.registerModel[T]
 
     //todo not working, sample is not in the generated api, waiting for swagger fix
     example.foreach { e =>

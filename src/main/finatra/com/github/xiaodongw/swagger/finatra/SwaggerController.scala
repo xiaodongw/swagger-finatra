@@ -8,16 +8,16 @@ case class SwaggerView(title: String, path: String) extends View {
   override def template: String = "templates/swagger-ui/index.mustache"
 }
 
-class SwaggerController(docPath: String = "/api-docs") extends Controller {
+class SwaggerController(docPath: String = "/api-docs", finatraSwagger: FinatraSwagger) extends Controller {
   get(docPath) { request =>
-    val swagger = FinatraSwagger.swagger
+    val swagger = finatraSwagger.swagger
 
     render.body(Json.mapper.writeValueAsString(swagger))
       .contentType("application/json").toFuture
   }
 
   get(s"${docPath}/ui") { request =>
-    val swagger = FinatraSwagger.swagger
+    val swagger = finatraSwagger.swagger
 
     render.view(SwaggerView(swagger.getInfo.getTitle, docPath)).toFuture
   }
