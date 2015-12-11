@@ -29,8 +29,11 @@ Add Swagger support for Finatra (1.6 and 2.1.1) web framework.
     libraryDependencies += "com.github.xiaodongw" %% "swagger-finatra2" % "0.4.0"
 
 ## Add document information for you controller
+    object SampleSwagger extends FinatraSwagger
 
     class SampleController extends Controller with SwaggerSupport {
+      override val finatraSwager: FinatraSwagger = SampleSwagger
+
       get("/students/:id",
         swagger { o =>
           o.summary("Read the detail information about the student")
@@ -46,14 +49,14 @@ Add Swagger support for Finatra (1.6 and 2.1.1) web framework.
 
 ##### Finatra 2.1.1
     object SampleApp extends HttpServer {
-      FinatraSwagger.registerInfo(
+      SampleSwagger.registerInfo(
         description = "The Student / Course management API, this is a sample for swagger document generation",
         version = "1.0.1",
         title = "Student / Course Management API")
 
       override def configureHttp(router: HttpRouter) {
         router
-          .add(new SwaggerController)
+          .add(new SwaggerController(finatraSwagger = SampleSwagger))
           ...
       }
     }
