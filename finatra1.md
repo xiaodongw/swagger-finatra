@@ -28,7 +28,7 @@ Add Swagger support for Finatra web framework.
     object SampleSwagger extends FinatraSwagger
 
     class SampleController extends Controller with SwaggerSupport {
-      override val finatraSwager: FinatraSwagger = SampleSwagger
+      override val finatraSwagger: FinatraSwagger = SampleSwagger
 
       get("/students/:id",
         swagger { o =>

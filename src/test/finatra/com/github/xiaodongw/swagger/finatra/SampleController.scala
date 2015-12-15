@@ -8,7 +8,7 @@ import org.joda.time.{DateTime, LocalDate}
 class SampleController extends Controller with SwaggerSupport {
   case class HelloResponse(text: String, time: Date)
 
-  override val finatraSwager: FinatraSwagger = SampleSwagger
+  override val finatraSwagger: FinatraSwagger = SampleSwagger
 
   get("/students/:id",
     swagger { o =>

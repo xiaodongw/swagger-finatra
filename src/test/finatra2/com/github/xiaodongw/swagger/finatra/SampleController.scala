@@ -7,7 +7,7 @@ import com.twitter.finatra.http.Controller
 import org.joda.time.{DateTime, LocalDate}
 
 class SampleController extends Controller with SwaggerSupport {
-  override val finatraSwager: FinatraSwagger = SampleSwagger
+  override val finatraSwagger: FinatraSwagger = SampleSwagger
 
   case class HelloResponse(text: String, time: Date)
 
