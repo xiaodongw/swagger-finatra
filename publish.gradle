@@ -3,7 +3,7 @@ apply plugin: 'signing'
 
 group = 'com.github.xiaodongw'
 
-version = '0.4.0'
+version = '0.4.1'
 
 if(!project.hasProperty("ossrhUsername")) {
   ext.ossrhUsername = ""
