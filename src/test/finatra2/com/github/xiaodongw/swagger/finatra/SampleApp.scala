@@ -18,8 +18,8 @@ object SampleApp extends HttpServer {
 
   override def configureHttp(router: HttpRouter) {
     router
+      .filter[CommonFilters]
       .add(new SwaggerController(finatraSwagger = SampleSwagger))
       .add[SampleController]
-      .filter[CommonFilters]
   }
 }

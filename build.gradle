@@ -6,7 +6,7 @@ if(project.hasProperty("scalaVersion")) {
 }
 
 if(!project.hasProperty("finatraVersion")) {
-  ext.finatraVersion = "2.1.1"
+  ext.finatraVersion = "2.1.3"
 }
 
 if(finatraVersion.startsWith("1")) {
@@ -32,7 +32,7 @@ repositories {
 dependencies {
   compile "org.scala-lang:scala-library:${scalaVersion}",
     'io.swagger:swagger-core:1.5.7',
-    "io.swagger:swagger-scala-module_${scalaVersionMain}:1.0.0"
+    "io.swagger:swagger-scala-module_${scalaVersionMain}:1.0.1"
 
   testCompile "org.scalatest:scalatest_${scalaVersionMain}:2.2.4",
     'joda-time:joda-time:2.7'

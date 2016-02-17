@@ -13,7 +13,7 @@ Add Swagger support for Finatra web framework.
 
 ##### Scala 2.10, Finatra 1.6.0
 
-	compile "com.github.xiaodongw:swagger-finatra_2.10:0.4.1"
+	compile "com.github.xiaodongw:swagger-finatra_2.10:0.4.2"
 
 ## SBT
 	resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/releases/"
@@ -22,7 +22,7 @@ Add Swagger support for Finatra web framework.
 
 ##### Finatra 1.6.0
 
-	libraryDependencies += "com.github.xiaodongw" %% "swagger-finatra" % "0.4.1"
+	libraryDependencies += "com.github.xiaodongw" %% "swagger-finatra" % "0.4.2"
 
 ## Add document information for you controller
     object SampleSwagger extends FinatraSwagger
