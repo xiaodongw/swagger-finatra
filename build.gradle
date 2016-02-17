@@ -31,7 +31,7 @@ repositories {
 
 dependencies {
   compile "org.scala-lang:scala-library:${scalaVersion}",
-    'io.swagger:swagger-core:1.5.3',
+    'io.swagger:swagger-core:1.5.7',
     "io.swagger:swagger-scala-module_${scalaVersionMain}:1.0.0"
 
   testCompile "org.scalatest:scalatest_${scalaVersionMain}:2.2.4",
