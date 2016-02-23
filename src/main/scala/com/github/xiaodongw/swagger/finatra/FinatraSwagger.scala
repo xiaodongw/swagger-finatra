@@ -1,6 +1,7 @@
 package com.github.xiaodongw.swagger.finatra
 
 import io.swagger.converter.ModelConverters
+import io.swagger.models.auth.SecuritySchemeDefinition
 import io.swagger.models.properties.Property
 import io.swagger.models.{Info, Operation, Path, Swagger}
 
@@ -41,6 +42,10 @@ class FinatraSwagger() {
     }
   }
 
+  def addSecurityDefinition(name: String, sd: SecuritySchemeDefinition): FinatraSwagger = {
+    swagger.addSecurityDefinition(name, sd)
+    this
+  }
 
   private[this] val finatraRouteParamter = ":(\\w+)".r
   def convertPath(path: String): String = {
