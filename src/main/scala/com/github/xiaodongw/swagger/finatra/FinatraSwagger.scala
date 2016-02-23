@@ -3,7 +3,7 @@ package com.github.xiaodongw.swagger.finatra
 import io.swagger.converter.ModelConverters
 import io.swagger.models.auth.SecuritySchemeDefinition
 import io.swagger.models.properties.Property
-import io.swagger.models.{Info, Operation, Path, Swagger}
+import io.swagger.models._
 
 import scala.collection.JavaConverters._
 import scala.reflect.runtime._
@@ -44,6 +44,11 @@ class FinatraSwagger() {
 
   def addSecurityDefinition(name: String, sd: SecuritySchemeDefinition): FinatraSwagger = {
     swagger.addSecurityDefinition(name, sd)
+    this
+  }
+
+  def addTag(tag: Tag) = {
+    swagger.addTag(tag)
     this
   }
 
