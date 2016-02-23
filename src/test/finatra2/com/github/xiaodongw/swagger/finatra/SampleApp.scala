@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.twitter.finatra.http.HttpServer
 import com.twitter.finatra.http.filters.CommonFilters
 import com.twitter.finatra.http.routing.HttpRouter
+import io.swagger.models.{ExternalDocs, Tag}
 import io.swagger.models.auth.BasicAuthDefinition
 import io.swagger.util.Json
 
@@ -22,6 +23,14 @@ object SampleApp extends HttpServer {
       d.setType("basic")
       d
     })
+    .addTag(new Tag()
+      .name("Student")
+      .description("Everything about student")
+      .externalDocs(new ExternalDocs()
+        .url("http://example.com/examle")
+        .description("this is external doc")
+      )
+    )
 
 
   override def configureHttp(router: HttpRouter) {
