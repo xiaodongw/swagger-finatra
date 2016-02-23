@@ -47,6 +47,11 @@ class FinatraSwagger() {
     this
   }
 
+  def setExternalDocs(externalDocs: ExternalDocs): FinatraSwagger = {
+    swagger.setExternalDocs(externalDocs)
+    this
+  }
+
   def addTag(tag: Tag) = {
     swagger.addTag(tag)
     this

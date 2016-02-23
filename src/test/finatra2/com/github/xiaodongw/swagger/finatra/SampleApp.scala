@@ -31,6 +31,12 @@ object SampleApp extends HttpServer {
         .description("this is external doc")
       )
     )
+    .setExternalDocs({
+      val d = new ExternalDocs()
+      d.setDescription("This is external document")
+      d.setUrl("https://github.com/Mekajiki/swagger-finatra")
+      d
+    })
 
 
   override def configureHttp(router: HttpRouter) {
