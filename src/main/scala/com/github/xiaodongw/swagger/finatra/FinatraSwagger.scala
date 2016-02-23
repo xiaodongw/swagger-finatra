@@ -47,7 +47,7 @@ class FinatraSwagger() {
     finatraRouteParamter.replaceAllIn(path, "{$1}")
   }
 
-  def registerOperation(path: String, method: String, operation: Operation): Unit = {
+  def registerOperation(path: String, method: String, operation: Operation): FinatraSwagger = {
     val swaggerPath = convertPath(path)
 
     var spath = _swagger.getPath(swaggerPath)
@@ -57,15 +57,17 @@ class FinatraSwagger() {
     }
 
     spath.set(method, operation)
+    this
   }
 
-  def registerInfo(description: String, version: String, title: String): Unit = {
+  def registerInfo(description: String, version: String, title: String): FinatraSwagger = {
     val info = new Info()
       .description(description)
       .version(version)
       .title(title)
 
     _swagger.info(info)
+    this
   }
 
   //use it to modify something not available on API
