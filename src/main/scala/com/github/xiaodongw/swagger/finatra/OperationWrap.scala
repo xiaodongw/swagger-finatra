@@ -6,10 +6,15 @@ import io.swagger.models.parameters._
 import io.swagger.util.Json
 import scala.collection.JavaConverters._
 
+
 import scala.reflect.runtime.universe._
 
 class OperationWrap(finatraSwagger: FinatraSwagger) {
   private[finatra] val operation = new Operation
+
+  def addSecurity(s: String, scopes: List[String]): Unit = {
+    operation.addSecurity(s, scopes.asJava)
+  }
 
   def summary(value: String): Unit = {
     operation.summary(value)
