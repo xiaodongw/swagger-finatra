@@ -66,6 +66,7 @@ class SampleController extends Controller with SwaggerSupport {
       o.tags("Student")
       o.response[Array[String]](200, "the student ids")
       o.response(500, "internal error")
+      o.addSecurity("sampleBasic", List())
     }) { request: Request =>
     response.ok.json(Array("student1", "student2")).toFuture
   }

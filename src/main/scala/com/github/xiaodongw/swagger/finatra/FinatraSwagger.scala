@@ -1,6 +1,7 @@
 package com.github.xiaodongw.swagger.finatra
 
 import io.swagger.converter.ModelConverters
+import io.swagger.models.auth.SecuritySchemeDefinition
 import io.swagger.models.properties.Property
 import io.swagger.models.{Info, Operation, Path, Swagger}
 
@@ -41,13 +42,17 @@ class FinatraSwagger() {
     }
   }
 
+  def addSecurityDefinition(name: String, sd: SecuritySchemeDefinition): FinatraSwagger = {
+    swagger.addSecurityDefinition(name, sd)
+    this
+  }
 
   private[this] val finatraRouteParamter = ":(\\w+)".r
   def convertPath(path: String): String = {
     finatraRouteParamter.replaceAllIn(path, "{$1}")
   }
 
-  def registerOperation(path: String, method: String, operation: Operation): Unit = {
+  def registerOperation(path: String, method: String, operation: Operation): FinatraSwagger = {
     val swaggerPath = convertPath(path)
 
     var spath = _swagger.getPath(swaggerPath)
@@ -57,15 +62,17 @@ class FinatraSwagger() {
     }
 
     spath.set(method, operation)
+    this
   }
 
-  def registerInfo(description: String, version: String, title: String): Unit = {
+  def registerInfo(description: String, version: String, title: String): FinatraSwagger = {
     val info = new Info()
       .description(description)
       .version(version)
       .title(title)
 
     _swagger.info(info)
+    this
   }
 
   //use it to modify something not available on API
