@@ -6,37 +6,37 @@ import com.twitter.util.Future
 trait SwaggerSupport extends SwaggerSupportBase {
   self: Controller =>
 
-  def post(path: String, op: OperationWrap)(callback: (Request) => Future[ResponseBuilder]): Unit = {
+  def post(path: String, op: FinatraOperation)(callback: (Request) => Future[ResponseBuilder]): Unit = {
     registerOperation(path, "post", op)
     self.post(path)(callback)
   }
 
-  def get(path: String, op: OperationWrap)(callback: (Request) => Future[ResponseBuilder]): Unit = {
+  def get(path: String, op: FinatraOperation)(callback: (Request) => Future[ResponseBuilder]): Unit = {
     registerOperation(path, "get", op)
     self.get(path)(callback)
   }
 
-  def put(path: String, op: OperationWrap)(callback: (Request) => Future[ResponseBuilder]): Unit = {
+  def put(path: String, op: FinatraOperation)(callback: (Request) => Future[ResponseBuilder]): Unit = {
     registerOperation(path, "put", op)
     self.put(path)(callback)
   }
 
-  def patch(path: String, op: OperationWrap)(callback: (Request) => Future[ResponseBuilder]): Unit = {
+  def patch(path: String, op: FinatraOperation)(callback: (Request) => Future[ResponseBuilder]): Unit = {
     registerOperation(path, "patch", op)
     self.patch(path)(callback)
   }
 
-  def delete(path: String, op: OperationWrap)(callback: (Request) => Future[ResponseBuilder]): Unit = {
+  def delete(path: String, op: FinatraOperation)(callback: (Request) => Future[ResponseBuilder]): Unit = {
     registerOperation(path, "delete", op)
     self.delete(path)(callback)
   }
 
-  def head(path: String, op: OperationWrap)(callback: (Request) => Future[ResponseBuilder]): Unit = {
+  def head(path: String, op: FinatraOperation)(callback: (Request) => Future[ResponseBuilder]): Unit = {
     registerOperation(path, "head", op)
     self.head(path)(callback)
   }
 
-  def options(path: String, op: OperationWrap)(callback: (Request) => Future[ResponseBuilder]): Unit = {
+  def options(path: String, op: FinatraOperation)(callback: (Request) => Future[ResponseBuilder]): Unit = {
     registerOperation(path, "options", op)
     self.options(path)(callback)
   }

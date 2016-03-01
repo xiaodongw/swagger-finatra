@@ -1,28 +1,20 @@
 package com.github.xiaodongw.swagger.finatra
 
 import io.swagger.converter.ModelConverters
-import io.swagger.models.auth.SecuritySchemeDefinition
 import io.swagger.models.properties.Property
-import io.swagger.models.{Info, Operation, Path, Swagger}
+import io.swagger.models.{Operation, Path, Swagger}
 
 import scala.collection.JavaConverters._
 import scala.reflect.runtime._
 import scala.reflect.runtime.universe._
 
-class FinatraSwagger() {
-  private[this] val _swagger = {
-    val swagger = new Swagger
+object FinatraSwagger {
+  private val finatraRouteParamter = ":(\\w+)".r
 
-    //default info
-    val info = new Info()
-      .description("Description")
-      .version("Version")
-      .title("Title")
+  implicit def convertToFinatraSwagger(swagger: Swagger): FinatraSwagger = new FinatraSwagger(swagger)
+}
 
-    swagger.info(info)
-
-    swagger
-  }
+class FinatraSwagger(swagger: Swagger) {
 
   def registerModel[T: TypeTag]: Property = {
     val paramType: Type = typeOf[T]
@@ -34,7 +26,7 @@ class FinatraSwagger() {
       val modelConverters = ModelConverters.getInstance()
       val models = modelConverters.readAll(typeClass)
       for(entry <- models.entrySet().asScala) {
-        _swagger.addDefinition(entry.getKey, entry.getValue)
+        swagger.addDefinition(entry.getKey, entry.getValue)
       }
       val schema = modelConverters.readAsProperty(typeClass)
 
@@ -42,39 +34,21 @@ class FinatraSwagger() {
     }
   }
 
-  def addSecurityDefinition(name: String, sd: SecuritySchemeDefinition): FinatraSwagger = {
-    swagger.addSecurityDefinition(name, sd)
-    this
-  }
-
-  private[this] val finatraRouteParamter = ":(\\w+)".r
   def convertPath(path: String): String = {
-    finatraRouteParamter.replaceAllIn(path, "{$1}")
+    FinatraSwagger.finatraRouteParamter.replaceAllIn(path, "{$1}")
   }
 
-  def registerOperation(path: String, method: String, operation: Operation): FinatraSwagger = {
+  def registerOperation(path: String, method: String, operation: Operation): Swagger = {
     val swaggerPath = convertPath(path)
 
-    var spath = _swagger.getPath(swaggerPath)
+    var spath = swagger.getPath(swaggerPath)
     if(spath == null) {
       spath = new Path()
-      _swagger.path(swaggerPath, spath)
+      swagger.path(swaggerPath, spath)
     }
 
     spath.set(method, operation)
-    this
+
+    swagger
   }
-
-  def registerInfo(description: String, version: String, title: String): FinatraSwagger = {
-    val info = new Info()
-      .description(description)
-      .version(version)
-      .title(title)
-
-    _swagger.info(info)
-    this
-  }
-
-  //use it to modify something not available on API
-  def swagger = _swagger
 }

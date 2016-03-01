@@ -1,30 +1,21 @@
 package com.github.xiaodongw.swagger.finatra
 
-import io.swagger.models.properties.RefProperty
-import io.swagger.models.{Response, RefModel, Operation}
 import io.swagger.models.parameters._
+import io.swagger.models.properties.RefProperty
+import io.swagger.models.{Operation, RefModel, Response}
 import io.swagger.util.Json
+
 import scala.collection.JavaConverters._
-
-
 import scala.reflect.runtime.universe._
 
-class OperationWrap(finatraSwagger: FinatraSwagger) {
-  private[finatra] val operation = new Operation
+object FinatraOperation {
+  implicit def convertToFinatraOperation(operation: Operation): FinatraOperation = new FinatraOperation(operation)
+}
 
-  def addSecurity(s: String, scopes: List[String]): Unit = {
-    operation.addSecurity(s, scopes.asJava)
-  }
+class FinatraOperation(operation: Operation) {
 
-  def summary(value: String): Unit = {
-    operation.summary(value)
-  }
-
-  def tags(values: String*): Unit = {
-    operation.setTags(values.asJava)
-  }
-
-  def routeParam[T: TypeTag](name: String, description: String = "", required: Boolean = true): Unit = {
+  def routeParam[T: TypeTag](name: String, description: String = "", required: Boolean = true)
+                            (implicit finatraSwagger: FinatraSwagger): Operation = {
     val param = new PathParameter()
       .name(name)
       .description(description)
@@ -32,9 +23,12 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
       .property(finatraSwagger.registerModel[T])
 
     operation.parameter(param)
+
+    operation
   }
 
-  def queryParam[T: TypeTag](name: String, description: String = "", required: Boolean = true): Unit = {
+  def queryParam[T: TypeTag](name: String, description: String = "", required: Boolean = true)
+                            (implicit finatraSwagger: FinatraSwagger): Operation = {
     val param = new QueryParameter()
       .name(name)
       .description(description)
@@ -42,9 +36,12 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
       .property(finatraSwagger.registerModel[T])
 
     operation.parameter(param)
+
+    operation
   }
 
-  def headerParam[T: TypeTag](name: String, description: String = "", required: Boolean = true): Unit = {
+  def headerParam[T: TypeTag](name: String, description: String = "", required: Boolean = true)
+                             (implicit finatraSwagger: FinatraSwagger): Operation = {
     val param = new HeaderParameter()
       .name(name)
       .description(description)
@@ -52,9 +49,12 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
       .property(finatraSwagger.registerModel[T])
 
     operation.parameter(param)
+
+    operation
   }
 
-  def formParam[T: TypeTag](name: String, description: String = "", required: Boolean = true): Unit = {
+  def formParam[T: TypeTag](name: String, description: String = "", required: Boolean = true)
+                           (implicit finatraSwagger: FinatraSwagger): Operation = {
     val param = new FormParameter()
       .name(name)
       .description(description)
@@ -62,9 +62,12 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
       .property(finatraSwagger.registerModel[T])
 
     operation.parameter(param)
+
+    operation
   }
 
-  def cookieParam[T: TypeTag](name: String, description: String = "", required: Boolean = true): Unit = {
+  def cookieParam[T: TypeTag](name: String, description: String = "", required: Boolean = true)
+                             (implicit finatraSwagger: FinatraSwagger): Operation = {
     val param = new CookieParameter()
       .name(name)
       .description(description)
@@ -72,9 +75,12 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
       .property(finatraSwagger.registerModel[T])
 
     operation.parameter(param)
+
+    operation
   }
 
-  def bodyParam[T: TypeTag](name: String, description: String = "", example: Option[T] = None): Unit = {
+  def bodyParam[T: TypeTag](name: String, description: String = "", example: Option[T] = None)
+                           (implicit finatraSwagger: FinatraSwagger): Operation = {
     val schema = finatraSwagger.registerModel[T]
 
     val model = schema match {
@@ -96,9 +102,12 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
       .schema(model)
 
     operation.parameter(param)
+
+    operation
   }
 
-  def response[T: TypeTag](status: Int, description: String = "", example: Option[T] = None): Unit = {
+  def responseWith[T: TypeTag](status: Int, description: String = "", example: Option[T] = None)
+                          (implicit finatraSwagger: FinatraSwagger): Operation = {
     val ref = finatraSwagger.registerModel[T]
 
     //todo not working, sample is not in the generated api, waiting for swagger fix
@@ -117,21 +126,18 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
       .schema(ref)
 
     operation.response(status, param)
+
+    operation
   }
 
-  def description(value: String): Unit = {
-    operation.setDescription(value)
+  def addSecurity(name: String, scopes: List[String]): Operation = {
+    operation.addSecurity(name, scopes.asJava)
+
+    operation
   }
 
-  def consumes(values: String*): Unit = {
-    operation.setConsumes(values.asJava)
-  }
-
-  def produces(values: String*): Unit = {
-    operation.setProduces(values.asJava)
-  }
-
-  def deprecated(value: Boolean): Unit = {
-    operation.deprecated(value)
+  def tags(tags: List[String]): Operation = {
+    operation.setTags(tags.asJava)
+    operation
   }
 }
