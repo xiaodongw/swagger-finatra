@@ -6,10 +6,8 @@ import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
 import org.joda.time.{DateTime, LocalDate}
 
-import com.github.xiaodongw.swagger.finatra.FinatraOperation._
-
 class SampleController extends Controller with SwaggerSupport {
-  override implicit protected val finatraSwagger: FinatraSwagger = SampleSwagger
+  override implicit protected val swagger = SampleSwagger
 
   case class HelloResponse(text: String, time: Date)
 

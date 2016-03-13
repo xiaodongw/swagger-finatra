@@ -8,16 +8,16 @@ import org.joda.time.{DateTime, LocalDate}
 class SampleController extends Controller with SwaggerSupport {
   case class HelloResponse(text: String, time: Date)
 
-  override val finatraSwagger: FinatraSwagger = SampleSwagger
+  implicit protected val swagger = SampleSwagger
 
   get("/students/:id",
     swagger { o =>
       o.summary("Read the detail information about the student")
-      o.tags("Student")
-      o.routeParam[String]("id", "the student id")
-      o.response[Student](200, "the student object",
-        example = Some(Student("Tom", "Wang", Gender.Male, new LocalDate(), 4, Some(Address("California Street", "94111")))))
-      o.response(404, "the student is not found")
+        .tag("Student")
+        .routeParam[String]("id", "the student id")
+        .responseWith[Student](200, "the student object",
+          example = Some(Student("Tom", "Wang", Gender.Male, new LocalDate(), 4, Some(Address("California Street", "94111")))))
+        .responseWith(404, "the student is not found")
     }) { request =>
     val id = request.routeParams("id")
 
@@ -27,10 +27,10 @@ class SampleController extends Controller with SwaggerSupport {
   post("/students",
     swagger { o =>
       o.summary("Create a new student")
-      o.tags("Student")
-      o.bodyParam[Student]("student", "the student details")
-      o.response(200, "the student is created")
-      o.response(500, "internal error")
+        .tag("Student")
+        .bodyParam[Student]("student", "the student details")
+        .responseWith(200, "the student is created")
+        .responseWith(500, "internal error")
     }) { request =>
     val student = request.contentString
 
@@ -40,14 +40,14 @@ class SampleController extends Controller with SwaggerSupport {
   put("/students/:id",
     swagger { o =>
       o.summary("Update the student")
-      o.tags("Student")
-      o.formParam[String]("name", "the student name")
-      o.formParam[Int]("grade", "the student grade")
-      o.routeParam[String]("id", "student ID")
-      o.cookieParam[String]("who", "who make the update")
-      o.headerParam[String]("token", "the token")
-      o.response(200, "the student is updated")
-      o.response(404, "the student is not found")
+        .tag("Student")
+        .formParam[String]("name", "the student name")
+        .formParam[Int]("grade", "the student grade")
+        .routeParam[String]("id", "student ID")
+        .cookieParam[String]("who", "who make the update")
+        .headerParam[String]("token", "the token")
+        .responseWith(200, "the student is updated")
+        .responseWith(404, "the student is not found")
     }) { request =>
     val id = request.routeParams("id")
     val name = request.getParam("name")
@@ -61,9 +61,9 @@ class SampleController extends Controller with SwaggerSupport {
   get("/students",
     swagger { o =>
       o.summary("Get a list of students")
-      o.tags("Student")
-      o.response[Array[String]](200, "the student ids")
-      o.response(500, "internal error")
+        .tag("Student")
+        .responseWith[Array[String]](200, "the student ids")
+        .responseWith(500, "internal error")
     }) { request =>
     render.json(Array("student1", "student2")).toFuture
   }
@@ -71,9 +71,9 @@ class SampleController extends Controller with SwaggerSupport {
   get("/courses",
     swagger { o =>
       o.summary("Get a list of courses")
-      o.tags("Course")
-      o.response[Array[String]](200, "the courses ids")
-      o.response(500, "internal error")
+        .tag("Course")
+        .responseWith[Array[String]](200, "the courses ids")
+        .responseWith(500, "internal error")
     }) { request =>
     render.json(Array("course1", "course2")).toFuture
   }
@@ -81,10 +81,10 @@ class SampleController extends Controller with SwaggerSupport {
   get("/courses/:id",
     swagger { o =>
       o.summary("Get the detail of a course")
-      o.tags("Course")
-      o.routeParam[String]("id", "the course id")
-      o.response[Course](200, "the courses detail")
-      o.response(500, "internal error")
+        .tag("Course")
+        .routeParam[String]("id", "the course id")
+        .responseWith[Course](200, "the courses detail")
+        .responseWith(500, "internal error")
     }) { request =>
     render.json(Course(new DateTime(), "calculation", Seq("math"), CourseType.LAB, 20, BigDecimal(300.54))).toFuture
   }
@@ -92,11 +92,11 @@ class SampleController extends Controller with SwaggerSupport {
   get("/courses/:courseId/student/:studentId",
     swagger { o =>
       o.summary("Is the student in this course")
-      o.tags("Course", "Student")
-      o.routeParam[String]("courseId", "the course id")
-      o.routeParam[String]("studentId", "the student id")
-      o.response[Boolean](200, "true / false")
-      o.response(500, "internal error")
+        .tags(List("Course", "Student"))
+        .routeParam[String]("courseId", "the course id")
+        .routeParam[String]("studentId", "the student id")
+        .responseWith[Boolean](200, "true / false")
+        .responseWith(500, "internal error")
     }) { request =>
     render.json(true).toFuture
   }

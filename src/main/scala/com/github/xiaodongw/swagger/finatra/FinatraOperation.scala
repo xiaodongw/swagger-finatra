@@ -2,7 +2,7 @@ package com.github.xiaodongw.swagger.finatra
 
 import io.swagger.models.parameters._
 import io.swagger.models.properties.RefProperty
-import io.swagger.models.{Operation, RefModel, Response}
+import io.swagger.models.{Swagger, Operation, RefModel, Response}
 import io.swagger.util.Json
 
 import scala.collection.JavaConverters._
@@ -13,14 +13,15 @@ object FinatraOperation {
 }
 
 class FinatraOperation(operation: Operation) {
+  import FinatraSwagger._
 
   def routeParam[T: TypeTag](name: String, description: String = "", required: Boolean = true)
-                            (implicit finatraSwagger: FinatraSwagger): Operation = {
+                            (implicit swagger: Swagger): Operation = {
     val param = new PathParameter()
       .name(name)
       .description(description)
       .required(required)
-      .property(finatraSwagger.registerModel[T])
+      .property(swagger.registerModel[T])
 
     operation.parameter(param)
 
@@ -28,12 +29,12 @@ class FinatraOperation(operation: Operation) {
   }
 
   def queryParam[T: TypeTag](name: String, description: String = "", required: Boolean = true)
-                            (implicit finatraSwagger: FinatraSwagger): Operation = {
+                            (implicit swagger: Swagger): Operation = {
     val param = new QueryParameter()
       .name(name)
       .description(description)
       .required(required)
-      .property(finatraSwagger.registerModel[T])
+      .property(swagger.registerModel[T])
 
     operation.parameter(param)
 
@@ -41,12 +42,12 @@ class FinatraOperation(operation: Operation) {
   }
 
   def headerParam[T: TypeTag](name: String, description: String = "", required: Boolean = true)
-                             (implicit finatraSwagger: FinatraSwagger): Operation = {
+                             (implicit swagger: Swagger): Operation = {
     val param = new HeaderParameter()
       .name(name)
       .description(description)
       .required(required)
-      .property(finatraSwagger.registerModel[T])
+      .property(swagger.registerModel[T])
 
     operation.parameter(param)
 
@@ -54,12 +55,12 @@ class FinatraOperation(operation: Operation) {
   }
 
   def formParam[T: TypeTag](name: String, description: String = "", required: Boolean = true)
-                           (implicit finatraSwagger: FinatraSwagger): Operation = {
+                           (implicit swagger: Swagger): Operation = {
     val param = new FormParameter()
       .name(name)
       .description(description)
       .required(required)
-      .property(finatraSwagger.registerModel[T])
+      .property(swagger.registerModel[T])
 
     operation.parameter(param)
 
@@ -67,12 +68,12 @@ class FinatraOperation(operation: Operation) {
   }
 
   def cookieParam[T: TypeTag](name: String, description: String = "", required: Boolean = true)
-                             (implicit finatraSwagger: FinatraSwagger): Operation = {
+                             (implicit swagger: Swagger): Operation = {
     val param = new CookieParameter()
       .name(name)
       .description(description)
       .required(required)
-      .property(finatraSwagger.registerModel[T])
+      .property(swagger.registerModel[T])
 
     operation.parameter(param)
 
@@ -80,8 +81,8 @@ class FinatraOperation(operation: Operation) {
   }
 
   def bodyParam[T: TypeTag](name: String, description: String = "", example: Option[T] = None)
-                           (implicit finatraSwagger: FinatraSwagger): Operation = {
-    val schema = finatraSwagger.registerModel[T]
+                           (implicit swagger: Swagger): Operation = {
+    val schema = swagger.registerModel[T]
 
     val model = schema match {
       case null => null
@@ -107,7 +108,7 @@ class FinatraOperation(operation: Operation) {
   }
 
   def responseWith[T: TypeTag](status: Int, description: String = "", example: Option[T] = None)
-                          (implicit finatraSwagger: FinatraSwagger): Operation = {
+                          (implicit finatraSwagger: Swagger): Operation = {
     val ref = finatraSwagger.registerModel[T]
 
     //todo not working, sample is not in the generated api, waiting for swagger fix

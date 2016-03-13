@@ -1,12 +1,15 @@
 package com.github.xiaodongw.swagger.finatra
 
-import io.swagger.models.Operation
+import io.swagger.models.{Swagger, Operation}
 
 trait SwaggerSupportBase {
-  implicit protected val finatraSwagger: FinatraSwagger
+  implicit protected val swagger: Swagger
+
+  implicit protected val convertToFinatraOperation = FinatraOperation.convertToFinatraOperation _
+  implicit protected val convertToFinatraSwagger = FinatraSwagger.convertToFinatraSwagger _
 
   protected def registerOperation(path: String, method: String, operation: Operation): Unit = {
-    finatraSwagger.registerOperation(path, method, operation)
+    swagger.registerOperation(path, method, operation)
   }
 
   protected def swagger(f: Operation => Unit): Operation = {
