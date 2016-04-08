@@ -6,7 +6,7 @@ if(project.hasProperty("scalaVersion")) {
 }
 
 if(!project.hasProperty("finatraVersion")) {
-  ext.finatraVersion = "2.1.3"
+  ext.finatraVersion = "2.1.5"
 }
 
 if(finatraVersion.startsWith("1")) {
