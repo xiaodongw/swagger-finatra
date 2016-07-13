@@ -31,11 +31,12 @@ repositories {
 
 dependencies {
   compile "org.scala-lang:scala-library:${scalaVersion}",
-    'io.swagger:swagger-core:1.5.7',
-    "io.swagger:swagger-scala-module_${scalaVersionMain}:1.0.1"
+    'io.swagger:swagger-core:1.5.9',
+    "io.swagger:swagger-scala-module_${scalaVersionMain}:1.0.2",
+    "org.webjars:swagger-ui:2.1.4"
 
-  testCompile "org.scalatest:scalatest_${scalaVersionMain}:2.2.4",
-    'joda-time:joda-time:2.7'
+  testCompile "org.scalatest:scalatest_${scalaVersionMain}:2.2.6",
+    'joda-time:joda-time:2.9.4'
 
   if(finatraVersion.startsWith("1")) {
     compile "com.twitter:finatra_${scalaVersionMain}:${finatraVersion}"
@@ -66,7 +67,7 @@ tasks.withType(ScalaCompile) {
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '2.7'
+  gradleVersion = '2.14'
 }
 
 apply from: 'publish.gradle'

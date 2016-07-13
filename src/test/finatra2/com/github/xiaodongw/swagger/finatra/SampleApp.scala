@@ -29,6 +29,7 @@ object SampleApp extends HttpServer {
   override def configureHttp(router: HttpRouter) {
     router
       .filter[CommonFilters]
+      .add[WebjarsController]
       .add(new SwaggerController(swagger = SampleSwagger))
       .add[SampleController]
   }
