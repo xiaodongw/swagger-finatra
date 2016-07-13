@@ -1,5 +1,7 @@
 # swagger-finatra
-Add Swagger support for Finatra (1.6 and 2.1.1) web framework.
+Add Swagger support for Finatra (1.6 and 2.2.0) web framework.
+
+It requires Java 8 from version 0.6.0.
 
 # Getting started
 ## Gradle
@@ -11,11 +13,11 @@ Add Swagger support for Finatra (1.6 and 2.1.1) web framework.
 
 #### Add Dependency
 
-##### Scala 2.10, Finatra 2.1.1
+##### Scala 2.10, Finatra 2.2.0
 
 	compile "com.github.xiaodongw:swagger-finatra_2.10:0.6.0"
 
-##### Scala 2.11, Finatra 2.1.1
+##### Scala 2.11, Finatra 2.2.0
 
 	compile "com.github.xiaodongw:swagger-finatra_2.11:0.6.0"
 
@@ -24,7 +26,7 @@ Add Swagger support for Finatra (1.6 and 2.1.1) web framework.
 
 #### Add Dependency
 
-##### Finatra 2.1.1
+##### Finatra 2.2.0
 
     libraryDependencies += "com.github.xiaodongw" %% "swagger-finatra" % "0.6.0"
 
@@ -46,7 +48,7 @@ Add Swagger support for Finatra (1.6 and 2.1.1) web framework.
 
 ## Add document controller
 
-##### Finatra 2.1.1
+##### Finatra 2.2.0
     object SampleApp extends HttpServer {
       val info = new Info()
         .description("The Student / Course management API, this is a sample for swagger document generation")
