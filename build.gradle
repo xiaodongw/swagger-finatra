@@ -6,7 +6,7 @@ if(project.hasProperty("scalaVersion")) {
 }
 
 if(!project.hasProperty("finatraVersion")) {
-  ext.finatraVersion = "2.1.5"
+  ext.finatraVersion = "2.2.0"
 }
 
 if(finatraVersion.startsWith("1")) {
@@ -41,7 +41,7 @@ dependencies {
   if(finatraVersion.startsWith("1")) {
     compile "com.twitter:finatra_${scalaVersionMain}:${finatraVersion}"
   } else {
-    compile "com.twitter.finatra:finatra-http_${scalaVersionMain}:${finatraVersion}"
+    compile "com.twitter:finatra-http_${scalaVersionMain}:${finatraVersion}"
   }
 }
 
