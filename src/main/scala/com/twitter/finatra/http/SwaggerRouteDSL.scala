@@ -8,7 +8,7 @@ import io.swagger.models.{Operation, Swagger}
   * To work around the accessibility of RouteDSL, this class is in "com.twitter.finatra.http" package
   */
 object SwaggerRouteDSL {
-  implicit def convertToSwaggerRouteDSL(dsl: RouteDSL)(implicit swagger: Swagger) = new SwaggerRouteDSLWapper(dsl)(swagger)
+  implicit def convertToSwaggerRouteDSL(dsl: RouteDSL)(implicit swagger: Swagger): SwaggerRouteDSL = new SwaggerRouteDSLWapper(dsl)(swagger)
 }
 
 trait SwaggerRouteDSL {
@@ -72,4 +72,4 @@ trait SwaggerRouteDSL {
   }
 }
 
-class SwaggerRouteDSLWapper(protected val dsl: RouteDSL)(implicit protected val swagger: Swagger) extends SwaggerRouteDSL
+private class SwaggerRouteDSLWapper(protected val dsl: RouteDSL)(implicit protected val swagger: Swagger) extends SwaggerRouteDSL

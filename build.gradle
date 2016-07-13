@@ -1,24 +1,12 @@
-if(project.hasProperty("scalaVersion")) {
-  ext.scalaVersionMain = scalaVersion.substring(0, scalaVersion.lastIndexOf("."))
-} else {
-  ext.scalaVersionMain = "2.11"
-  ext.scalaVersion = "2.11.7"
-}
-
-if(!project.hasProperty("finatraVersion")) {
-  ext.finatraVersion = "2.2.0"
-}
-
-if(finatraVersion.startsWith("1")) {
-  ext.finatraVersionPublish = ""
-} else {
-  ext.finatraVersionPublish = "2"
+ext {
+  scalaVersionMain = "2.11"
+  scalaVersion = "2.11.7"
+  finatraVersion = "2.2.0"
 }
 
 println("Scala Version: ${scalaVersion}")
 println("Scala Version Main: ${scalaVersionMain}")
 println("Finatra Version: ${finatraVersion}")
-println("Finatra Version Publish: ${finatraVersionPublish}")
 
 apply plugin: 'scala'
 
@@ -38,28 +26,11 @@ dependencies {
   testCompile "org.scalatest:scalatest_${scalaVersionMain}:2.2.6",
     'joda-time:joda-time:2.9.4'
 
-  if(finatraVersion.startsWith("1")) {
-    compile "com.twitter:finatra_${scalaVersionMain}:${finatraVersion}"
-  } else {
-    compile "com.twitter:finatra-http_${scalaVersionMain}:${finatraVersion}"
-  }
-}
-
-sourceSets {
-  main {
-    scala {
-      srcDirs = ['src/main/scala', "src/main/finatra${finatraVersionPublish}"]
-    }
-  }
-  test {
-    scala {
-      srcDirs = ['src/test/scala', "src/test/finatra${finatraVersionPublish}"]
-    }
-  }
+  compile "com.twitter:finatra-http_${scalaVersionMain}:${finatraVersion}"
 }
 
 compileJava {
-  targetCompatibility = "1.7"
+  targetCompatibility = "1.8"
 }
 
 tasks.withType(ScalaCompile) {

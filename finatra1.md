@@ -1,6 +1,8 @@
 # swagger-finatra
 Add Swagger support for Finatra web framework.
 
+Support for Finatra 1.6 is discontinued, 0.5.1 is the last version.
+
 # Getting started
 ## Gradle
 #### Add repository

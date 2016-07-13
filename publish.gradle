@@ -3,7 +3,7 @@ apply plugin: 'signing'
 
 group = 'com.github.xiaodongw'
 
-version = '0.5.1'
+version = '0.6'
 
 if(!project.hasProperty("ossrhUsername")) {
   ext.ossrhUsername = ""
@@ -35,7 +35,7 @@ signing {
 install {
   repositories.mavenInstaller {
     pom.version = "${version}"
-    pom.artifactId = "swagger-finatra${finatraVersionPublish}_${scalaVersionMain}"
+    pom.artifactId = "swagger-finatra_${scalaVersionMain}"
   }
 }
 
@@ -53,8 +53,8 @@ uploadArchives {
       }
 
       pom.project {
-        name "swagger-finatra${finatraVersionPublish}"
-        artifactId "swagger-finatra${finatraVersionPublish}_${scalaVersionMain}"
+        name "swagger-finatra"
+        artifactId "swagger-finatra_${scalaVersionMain}"
         packaging 'jar'
         // optionally artifactId can be defined here
         description 'Add Swagger support for Finatra to generate REST API docuemnt'

@@ -2,8 +2,8 @@ package com.github.xiaodongw.swagger.finatra
 
 import java.util.Date
 
-import com.twitter.finagle.{Service, SimpleFilter}
 import com.twitter.finagle.http.{Request, Response}
+import com.twitter.finagle.{Service, SimpleFilter}
 import com.twitter.finatra.http.Controller
 import com.twitter.util.Future
 import org.joda.time.{DateTime, LocalDate}
