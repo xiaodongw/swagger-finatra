@@ -1,11 +1,12 @@
 package com.github.xiaodongw.swagger.finatra
 
 import io.swagger.models.parameters._
-import io.swagger.models.properties.RefProperty
-import io.swagger.models.{Swagger, Operation, RefModel, Response}
+import io.swagger.models.properties.{Property, RefProperty}
+import io.swagger.models.{Operation, RefModel, Response, Swagger}
 import io.swagger.util.Json
 
 import scala.collection.JavaConverters._
+import scala.language.implicitConversions
 import scala.reflect.runtime.universe._
 
 object FinatraOperation {
@@ -84,47 +85,40 @@ class FinatraOperation(operation: Operation) {
                            (implicit swagger: Swagger): Operation = {
     val schema = swagger.registerModel[T]
 
-    val model = schema match {
-      case null => null
-      case p: RefProperty => new RefModel(p.getSimpleRef)
-      case _ => null  //todo map ArrayProperty to ArrayModel?
-    }
-
-    //todo not working
-    example.foreach { e =>
-      if(model != null) {
-        model.setExample(Json.mapper.writeValueAsString(e))
-      }
-    }
-
     val param = new BodyParameter()
       .name(name)
       .description(description)
-      .schema(model)
+      .schema(registerExample(example, schema))
 
     operation.parameter(param)
 
     operation
   }
 
-  def responseWith[T: TypeTag](status: Int, description: String = "", example: Option[T] = None)
-                          (implicit finatraSwagger: Swagger): Operation = {
-    val ref = finatraSwagger.registerModel[T]
+  private def registerExample[T: TypeTag](example: Option[T], schema: Property) = {
+    val model = schema match {
+      case null => null
+      case p: RefProperty => new RefModel(p.getSimpleRef)
+      case _ => null //todo map ArrayProperty to ArrayModel?
+    }
 
-    //todo not working, sample is not in the generated api, waiting for swagger fix
     example.foreach { e =>
-      if(ref != null) {
-        val example = Json.mapper.writeValueAsString(e)
-
-        ref.setExample(example)
-        //val model = api.swagger.getDefinitions.get(ref.asInstanceOf[RefProperty].getSimpleRef)
-        //model.setExample(example)
+      if (model != null) {
+        model.setExample(Json.mapper.writeValueAsString(e))
       }
     }
+    model
+  }
+
+  def responseWith[T: TypeTag](status: Int, description: String = "", example: Option[T] = None)
+                              (implicit swagger: Swagger): Operation = {
+    val schema = swagger.registerModel[T]
+
+    registerExample(example, schema)
 
     val param = new Response()
       .description(description)
-      .schema(ref)
+      .schema(schema)
 
     operation.response(status, param)
 

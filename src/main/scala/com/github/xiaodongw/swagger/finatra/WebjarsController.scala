@@ -17,17 +17,19 @@ object WebjarsController {
   private val DEFAULT_EXPIRE_TIME_MS: Long = 86400000L // 1 day
 }
 
-class WebjarsController @Inject() (resolver: FileResolver) extends Controller {
+class WebjarsController (jar: String, version: String) extends Controller {
   import WebjarsController._
+
+  @Inject
+  var resolver: FileResolver = _
 
   private val root: String = "/webjars"
   private val disableCache: Boolean = false
 
-  get(s"${root}/:*") { request: Request =>
+  get(s"$root/:*") { request: Request =>
     val resourcePath = request.getParam("*")
 
-    val webjarsResourceURI: String = "/META-INF/resources/webjars/" + resourcePath
-    //logger.log(Level.FINE, "Webjars resource requested: {0}", webjarsResourceURI)
+    val webjarsResourceURI: String = s"/META-INF/resources$root/$jar/$version/$resourcePath"
 
     if (isDirectoryRequest(webjarsResourceURI)) {
       response.forbidden
