@@ -1,7 +1,9 @@
 ext {
   scalaVersionMain = "2.11"
   scalaVersion = "2.11.7"
-  finatraVersion = "2.2.0"
+  finatraVersion = "2.5.0"
+  swaggerVersion = "1.5.10"
+  swaggerUIVersion = "2.2.6"
 }
 
 println("Scala Version: ${scalaVersion}")
@@ -19,12 +21,12 @@ repositories {
 
 dependencies {
   compile "org.scala-lang:scala-library:${scalaVersion}",
-    'io.swagger:swagger-core:1.5.9',
-    "io.swagger:swagger-scala-module_${scalaVersionMain}:1.0.2",
-    "org.webjars:swagger-ui:2.1.4"
+          "io.swagger:swagger-core:${swaggerVersion}",
+          "io.swagger:swagger-scala-module_${scalaVersionMain}:1.0.2",
+          "org.webjars:swagger-ui:${swaggerUIVersion}"
 
   testCompile "org.scalatest:scalatest_${scalaVersionMain}:2.2.6",
-    'joda-time:joda-time:2.9.4'
+              'joda-time:joda-time:2.9.4'
 
   compile "com.twitter:finatra-http_${scalaVersionMain}:${finatraVersion}"
 }
@@ -43,8 +45,14 @@ task wrapper(type: Wrapper) {
 
 apply from: 'publish.gradle'
 
-task runSampleApp(type: JavaExec, description: 'Run the sample application.') {
+task runSampleApp(type: JavaExec, description: 'Run the default sample application.') {
   classpath sourceSets.test.runtimeClasspath
   main = "com.github.xiaodongw.swagger.finatra.SampleApp"
 }
+
+task runVersionedApp(type: JavaExec, description: 'Run the versioned sample application.') {
+  classpath sourceSets.test.runtimeClasspath
+  main = "com.github.xiaodongw.swagger.finatra.VersionedApp"
+}
+
 
