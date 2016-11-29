@@ -1,30 +1,20 @@
 package com.github.xiaodongw.swagger.finatra
 
-import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import com.wordnik.swagger.converter.ModelConverters
-import com.wordnik.swagger.models.properties.Property
-import com.wordnik.swagger.models.{Info, Path, Swagger, Operation}
-import com.wordnik.swagger.util.Json
+import io.swagger.converter.ModelConverters
+import io.swagger.models.properties.Property
+import io.swagger.models.{Operation, Path, Swagger}
 
-import scala.reflect.runtime.universe._
-import scala.reflect.runtime._
 import scala.collection.JavaConverters._
+import scala.reflect.runtime._
+import scala.reflect.runtime.universe._
 
 object FinatraSwagger {
-  private[this] val _swagger = {
-    val swagger = new Swagger
+  private val finatraRouteParamter = ":(\\w+)".r
 
-    //default info
-    val info = new Info()
-      .description("Description")
-      .version("Version")
-      .title("Title")
+  implicit def convertToFinatraSwagger(swagger: Swagger): FinatraSwagger = new FinatraSwagger(swagger)
+}
 
-    swagger.info(info)
-
-    swagger
-  }
-  Json.mapper.registerModule(DefaultScalaModule)
+class FinatraSwagger(swagger: Swagger) {
 
   def registerModel[T: TypeTag]: Property = {
     val paramType: Type = typeOf[T]
@@ -33,44 +23,32 @@ object FinatraSwagger {
     } else {
       val typeClass = currentMirror.runtimeClass(paramType)
 
-      val modelConverter = ModelConverters.getInstance()
-      val models = modelConverter.readAll(typeClass)
+      val modelConverters = ModelConverters.getInstance()
+      val models = modelConverters.readAll(typeClass)
       for(entry <- models.entrySet().asScala) {
-        _swagger.addDefinition(entry.getKey, entry.getValue)
+        swagger.addDefinition(entry.getKey, entry.getValue)
       }
-      val schema = modelConverter.readAsProperty(typeClass)
+      val schema = modelConverters.readAsProperty(typeClass)
 
       schema
     }
   }
 
-
-  private[this] val finatraRouteParamter = ":(\\w+)".r
   def convertPath(path: String): String = {
-    finatraRouteParamter.replaceAllIn(path, "{$1}")
+    FinatraSwagger.finatraRouteParamter.replaceAllIn(path, "{$1}")
   }
 
-  def registerOperation(path: String, method: String, operation: Operation): Unit = {
+  def registerOperation(path: String, method: String, operation: Operation): Swagger = {
     val swaggerPath = convertPath(path)
 
-    var spath = _swagger.getPath(swaggerPath)
+    var spath = swagger.getPath(swaggerPath)
     if(spath == null) {
       spath = new Path()
-      _swagger.path(swaggerPath, spath)
+      swagger.path(swaggerPath, spath)
     }
 
     spath.set(method, operation)
+
+    swagger
   }
-
-  def registerInfo(description: String, version: String, title: String): Unit = {
-    val info = new Info()
-      .description(description)
-      .version(version)
-      .title(title)
-
-    _swagger.info(info)
-  }
-
-  //use it to modify something not available on API
-  def swagger = _swagger
 }

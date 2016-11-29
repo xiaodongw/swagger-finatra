@@ -1,69 +1,71 @@
 # swagger-finatra
-Add Swagger support for Finatra web framework.
+Add Swagger support for Finatra (1.6 and 2.2.0) web framework.
+
+It requires Java 8 from version 0.6.0.
 
 # Getting started
 ## Gradle
-Add repository
+#### Add repository
 
 	repositories {
-	  maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+	  maven { url "https://oss.sonatype.org/content/repositories/releases/" }
 	}
 
-Add Dependency
+#### Add Dependency
 
-Scala 2.10, Finatra 1.6.0
+##### Scala 2.10, Finatra 2.2.0
 
-	compile "com.github.xiaodongw:swagger-finatra_2.10:0.1.0-SNAPSHOT"
+	compile "com.github.xiaodongw:swagger-finatra_2.10:0.6.0"
 
-Scala 2.10, Finatra 2.0.0.M1
+##### Scala 2.11, Finatra 2.2.0
 
-	compile "com.github.xiaodongw:swagger-finatra2_2.10:0.1.0-SNAPSHOT"
-
-Scala 2.11, Finatra 2.0.0.M1
-
-	compile "com.github.xiaodongw:swagger-finatra2_2.11:0.1.0-SNAPSHOT"
+	compile "com.github.xiaodongw:swagger-finatra_2.11:0.6.0"
 
 ## SBT
-	resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+	resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/releases/"
 
-Add Dependency
+#### Add Dependency
 
-Finatra 1.6.0
+##### Finatra 2.2.0
 
-	libraryDependencies += "com.github.xiaodongw" %% "swagger-finatra" % "0.1.0-SNAPSHOT"
-
-Finatra 2.0.0.M1
-
-    libraryDependencies += "com.github.xiaodongw" %% "swagger-finatra2" % "0.1.0-SNAPSHOT"
+    libraryDependencies += "com.github.xiaodongw" %% "swagger-finatra" % "0.6.0"
 
 ## Add document information for you controller
+    object SampleSwagger extends Swagger
 
     class SampleController extends Controller with SwaggerSupport {
-      get("/students/:id",
-        swagger { o =>
-          o.summary("Read the detail information about the student")
-          o.tags("Student")
-          o.routeParam[String]("id", "the student id")
-          o.response[Student](200, "the student details")
-          o.response(404, "the student is not found")
-        }) { request =>
+      implicit protected val swagger = SampleSwagger
+
+      getWithDoc("/students/:id") { o =>
+        o.summary("Read the detail information about the student")
+          .tag("Student")
+          .routeParam[String]("id", "the student id")
+          .responseWith[Student](200, "the student details")
+          .responseWith(404, "the student is not found")
+      } { request =>
         ...
       }
 
 ## Add document controller
 
-    object SampleApp extends FinatraServer {
-      FinatraSwagger.registerInfo(
-        description = "The Student / Course management API, this is a sample for swagger document generation",
-        version = "1.0.1",
-        title = "Student / Course Management API")
-    
-      register(new SwaggerController())
-      ...
+##### Finatra 2.2.0
+    object SampleApp extends HttpServer {
+      val info = new Info()
+        .description("The Student / Course management API, this is a sample for swagger document generation")
+        .version("1.0.1")
+        .title("Student / Course Management API")
+      SampleSwagger.info(info)
+
+      override def configureHttp(router: HttpRouter) {
+        router
+          .add[WebjarsController]
+          .add(new SwaggerController(swagger = SampleSwagger))
+          ...
+      }
     }
+Swagger API document: ```http://localhost:8888/api-docs/model```
 
-Now, check your shining API documents at 
+Swagger UI: ```http://localhost:8888/api-docs/ui```
 
-Swagger API document: ```http://localhost:7070/api-docs```
-
-Swagger UI: ```http://localhost:7070/api-docs/ui```
+# Finatra 1.6
+Previous version of Finatra (1.6) is also supported, Check [here](finatra1.md) for the guide.

@@ -1,24 +1,12 @@
-if(project.hasProperty("scalaVersion")) {
-  ext.scalaVersionMain = scalaVersion.substring(0, scalaVersion.lastIndexOf("."))
-} else {
-  ext.scalaVersionMain = "2.10"
-  ext.scalaVersion = "2.10.4"
-}
-
-if(!project.hasProperty("finatraVersion")) {
-  ext.finatraVersion = "1.6.0"
-}
-
-if(finatraVersion.startsWith("1")) {
-  ext.finatraVersionPublish = ""
-} else {
-  ext.finatraVersionPublish = "2"
+ext {
+  scalaVersionMain = "2.11"
+  scalaVersion = "2.11.7"
+  finatraVersion = "2.2.0"
 }
 
 println("Scala Version: ${scalaVersion}")
 println("Scala Version Main: ${scalaVersionMain}")
 println("Finatra Version: ${finatraVersion}")
-println("Finatra Version Publish: ${finatraVersionPublish}")
 
 apply plugin: 'scala'
 
@@ -31,33 +19,18 @@ repositories {
 
 dependencies {
   compile "org.scala-lang:scala-library:${scalaVersion}",
-    'com.wordnik:swagger-core:1.5.3-M1'
+    'io.swagger:swagger-core:1.5.9',
+    "io.swagger:swagger-scala-module_${scalaVersionMain}:1.0.2",
+    "org.webjars:swagger-ui:2.1.4"
 
-  testCompile "org.scalatest:scalatest_${scalaVersionMain}:2.2.4",
-    'joda-time:joda-time:2.7'
+  testCompile "org.scalatest:scalatest_${scalaVersionMain}:2.2.6",
+    'joda-time:joda-time:2.9.4'
 
-  if(finatraVersion.startsWith("1")) {
-    compile "com.twitter:finatra_${scalaVersionMain}:${finatraVersion}"
-  } else {
-    compile "com.twitter.finatra:finatra-http_${scalaVersionMain}:${finatraVersion}"
-  }
-}
-
-sourceSets {
-  main {
-    scala {
-      srcDirs = ['src/main/scala', "src/main/finatra${finatraVersionPublish}"]
-    }
-  }
-  test {
-    scala {
-      srcDirs = ['src/test/scala', "src/test/finatra${finatraVersionPublish}"]
-    }
-  }
+  compile "com.twitter:finatra-http_${scalaVersionMain}:${finatraVersion}"
 }
 
 compileJava {
-  targetCompatibility = "1.7"
+  targetCompatibility = "1.8"
 }
 
 tasks.withType(ScalaCompile) {
@@ -65,7 +38,13 @@ tasks.withType(ScalaCompile) {
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '2.4'
+  gradleVersion = '2.14'
 }
 
 apply from: 'publish.gradle'
+
+task runSampleApp(type: JavaExec, description: 'Run the sample application.') {
+  classpath sourceSets.test.runtimeClasspath
+  main = "com.github.xiaodongw.swagger.finatra.SampleApp"
+}
+

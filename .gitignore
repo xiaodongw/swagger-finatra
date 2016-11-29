@@ -19,7 +19,9 @@ project/plugins/project/
 # Intellij
 .idea
 *.iml
+classes/
 
 # Gradle
 .gradle
 gradle.properties
+build/
