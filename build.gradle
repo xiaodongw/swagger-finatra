@@ -19,9 +19,9 @@ repositories {
 
 dependencies {
   compile "org.scala-lang:scala-library:${scalaVersion}",
-    'io.swagger:swagger-core:1.5.9',
+    'io.swagger:swagger-core:1.5.10',
     "io.swagger:swagger-scala-module_${scalaVersionMain}:1.0.2",
-    "org.webjars:swagger-ui:2.1.4"
+    "org.webjars:swagger-ui:2.2.6"
 
   testCompile "org.scalatest:scalatest_${scalaVersionMain}:3.0.0",
     'joda-time:joda-time:2.9.4'
@@ -31,14 +31,6 @@ dependencies {
 
 compileJava {
   targetCompatibility = "1.8"
-}
-
-tasks.withType(ScalaCompile) {
-  scalaCompileOptions.useAnt = false
-}
-
-task wrapper(type: Wrapper) {
-  gradleVersion = '2.14'
 }
 
 apply from: 'publish.gradle'
