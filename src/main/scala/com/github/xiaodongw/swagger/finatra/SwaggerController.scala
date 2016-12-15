@@ -17,6 +17,6 @@ class SwaggerController(docPath: String = "/api-docs", swagger: Swagger) extends
 
   get(s"${docPath}/ui") { request: Request =>
     response.temporaryRedirect
-        .location("/webjars/swagger-ui/2.1.4/index.html?url=/api-docs/model")
+        .location("/webjars/swagger-ui/2.2.6/index.html?url=/api-docs/model")
   }
 }
