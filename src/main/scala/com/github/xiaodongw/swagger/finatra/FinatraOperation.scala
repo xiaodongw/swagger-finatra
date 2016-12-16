@@ -2,9 +2,8 @@ package com.github.xiaodongw.swagger.finatra
 
 import io.swagger.models.parameters._
 import io.swagger.models.properties.RefProperty
-import io.swagger.models.{Swagger, Operation, RefModel, Response}
+import io.swagger.models._
 import io.swagger.util.Json
-
 import scala.collection.JavaConverters._
 import scala.reflect.runtime.universe._
 
@@ -24,6 +23,12 @@ class FinatraOperation(operation: Operation) {
       .property(swagger.registerModel[T])
 
     operation.parameter(param)
+
+    operation
+  }
+
+  def request[T <: Product : TypeTag](implicit swagger: Swagger): Operation = {
+    swagger.register[T].foreach(operation.parameter)
 
     operation
   }

@@ -10,6 +10,8 @@ import io.swagger.util.Json
 
 object SampleSwagger extends Swagger {
   Json.mapper().setPropertyNamingStrategy(new PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy)
+
+  Resolvers.register()
 }
 
 object SampleApp extends HttpServer {
