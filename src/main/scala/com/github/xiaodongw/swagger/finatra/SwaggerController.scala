@@ -22,6 +22,6 @@ class SwaggerController(root: String = "/api-docs", modelUri: String = "/model",
 
   get(s"${swagger.base}$root$uiUri") { request: Request =>
     response.temporaryRedirect
-        .location(s"$webJarUri/index.html?url=$apiSpecUri")
+            .location(s"$webJarUri/index.html?url=$apiSpecUri")
   }
 }
