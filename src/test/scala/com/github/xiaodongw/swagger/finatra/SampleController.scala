@@ -45,6 +45,17 @@ class SampleController extends Controller with SwaggerSupport {
     response.ok.json(Student("Alice", "Wang", Gender.Female, new LocalDate(), 4, Some(Address("California Street", "94111")))).toFuture
   }
 
+  postWithDoc("/students/test/:id") { o =>
+    o.summary("Sample request with route2")
+      .description("Read the detail information about the student.")
+      .tag("Student")
+      .request[StudentWithRoute]
+  } { request: StudentWithRoute =>
+    val id = request.id
+
+    response.ok.json(Student("Alice", "Wang", Gender.Female, new LocalDate(), 4, Some(Address("California Street", "94111")))).toFuture
+  }
+
   postWithDoc("/students") { o =>
     o.summary("Create a new student")
       .tag("Student")
