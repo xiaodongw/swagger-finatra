@@ -1,7 +1,7 @@
 ext {
   scalaVersionMain = "2.11"
   scalaVersion = "2.11.8"
-  finatraVersion = "2.6.0"
+  finatraVersion = "2.7.0"
 }
 
 println("Scala Version: ${scalaVersion}")
@@ -19,10 +19,10 @@ repositories {
 
 dependencies {
   compile "org.scala-lang:scala-library:${scalaVersion}",
-    'io.swagger:swagger-core:1.5.10',
+    'io.swagger:swagger-core:1.5.12',
     "io.swagger:swagger-scala-module_${scalaVersionMain}:1.0.2",
-    "org.webjars:swagger-ui:2.2.6",
-    'net.bytebuddy:byte-buddy:1.5.9'
+    "org.webjars:swagger-ui:2.2.8",
+    'net.bytebuddy:byte-buddy:1.6.1'
 
   testCompile "org.scalatest:scalatest_${scalaVersionMain}:3.0.0",
     'joda-time:joda-time:2.9.4'
