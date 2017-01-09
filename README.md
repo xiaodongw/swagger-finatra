@@ -15,11 +15,11 @@ It requires Java 8 from version 0.6.0.
 
 ##### Scala 2.10, Finatra 2.2.0
 
-	compile "com.github.xiaodongw:swagger-finatra_2.10:0.6.0"
+	compile "com.github.xiaodongw:swagger-finatra_2.10:0.7.1"
 
 ##### Scala 2.11, Finatra 2.2.0
 
-	compile "com.github.xiaodongw:swagger-finatra_2.11:0.6.0"
+	compile "com.github.xiaodongw:swagger-finatra_2.11:0.7.1"
 
 ## SBT
 	resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/releases/"
@@ -28,7 +28,7 @@ It requires Java 8 from version 0.6.0.
 
 ##### Finatra 2.2.0
 
-    libraryDependencies += "com.github.xiaodongw" %% "swagger-finatra" % "0.6.0"
+    libraryDependencies += "com.github.xiaodongw" %% "swagger-finatra" % "0.7.1"
 
 ## Add document information for you controller
     object SampleSwagger extends Swagger
