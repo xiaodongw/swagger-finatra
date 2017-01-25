@@ -22,6 +22,11 @@ case class StudentWithRoute(
   address: Option[Address]
 )
 
+case class StringWithRequest(
+  @Inject request: Request,
+  firstName: String
+)
+
 object CourseType extends Enumeration {
   val LEC, LAB = Value
 }

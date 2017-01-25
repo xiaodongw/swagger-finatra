@@ -73,6 +73,7 @@ object Resolvers {
 }
 
 class FinatraSwagger(swagger: Swagger) {
+
   import FinatraSwagger._
 
   /**
@@ -190,28 +191,21 @@ class FinatraSwagger(swagger: Swagger) {
   }
 
   private def emitBodyClassForElements(bodyElements: List[BodyRequestParam], className: String): Class[_] = {
-    // if we have more than one body element create a new runtime class
-    // to fake out swagger
+    val byteBuddy = new ByteBuddy()
 
-    if (bodyElements.size > 1) {
-      val byteBuddy = new ByteBuddy()
+    // add "Body" to avoid name collisions
+    val bodyEmittedClass = byteBuddy.subclass(classOf[Object]).name(className)
 
-      // add "Body" to avoid name collisions
-      val bodyEmittedClass = byteBuddy.subclass(classOf[Object]).name(className)
+    val bodyFields = bodyElements.foldLeft(bodyEmittedClass) { (asm, body) =>
+      // if we have an inner option type, unwrap the option
+      // and pass it to the class builder so we can get proper
+      // definitions of the inner type in the swagger model
+      val bodyType = body.innerOptionType.getOrElse(body.typ).asInstanceOf[Class[_]]
 
-      val bodyFields = bodyElements.foldLeft(bodyEmittedClass) { (asm, body) =>
-        // if we have an inner option type, unwrap the option
-        // and pass it to the class builder so we can get proper
-        // definitions of the inner type in the swagger model
-        val bodyType = body.innerOptionType.getOrElse(body.typ).asInstanceOf[Class[_]]
-
-        asm.defineField(body.name, new TypeDescription.Generic.OfNonGenericType.ForLoadedType(bodyType), Visibility.PUBLIC)
-      }
-
-      bodyFields.make().load(getClass.getClassLoader).getLoaded
-    } else {
-      bodyElements.head.typ
+      asm.defineField(body.name, new TypeDescription.Generic.OfNonGenericType.ForLoadedType(bodyType), Visibility.PUBLIC)
     }
+
+    bodyFields.make().load(getClass.getClassLoader).getLoaded
   }
 
   /**
