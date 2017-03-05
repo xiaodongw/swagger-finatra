@@ -19,6 +19,7 @@ case class StudentWithRoute(
   gender: Gender,
   birthday: LocalDate,
   grade: Int,
+  emails: Array[String],
   address: Option[Address]
 )
 

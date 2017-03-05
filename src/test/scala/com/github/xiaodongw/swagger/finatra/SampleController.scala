@@ -74,6 +74,16 @@ class SampleController extends Controller with SwaggerSupport {
     response.ok.json(student).toFuture
   }
 
+  postWithDoc("/students/bulk") { o =>
+    o.summary("Create a list of students")
+      .tag("Student")
+      .bodyParam[Array[Student]]("students", "the list of students")
+      .responseWith[Unit](200, "the students are created")
+      .responseWith[Unit](500, "internal error")
+  } { students: List[Student] =>
+    response.ok.json(students).toFuture
+  }
+
   putWithDoc("/students/:id") { o =>
     o.summary("Update the student")
       .tag("Student")

@@ -231,7 +231,7 @@ class FinatraSwagger(swagger: Swagger) {
     val model = schema match {
       case null => null
       case p: RefProperty => new RefModel(p.getSimpleRef)
-      case _ => null  //todo map ArrayProperty to ArrayModel?
+      case _ => null
     }
 
     Some(
