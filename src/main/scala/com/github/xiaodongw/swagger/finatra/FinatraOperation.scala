@@ -89,16 +89,7 @@ class FinatraOperation(operation: Operation) {
                            (implicit swagger: Swagger): Operation = {
     val schema = swagger.registerModel[T]
 
-    val model = schema match {
-      case null => null
-      case p: RefProperty => new RefModel(p.getSimpleRef)
-      case p: ArrayProperty => {
-        val arrayModel = new ArrayModel()
-        arrayModel.setItems(p.getItems)
-        arrayModel
-      }
-      case _ => null
-    }
+    val model = SchemaUtil.toModel(schema)
 
     //todo not working
     example.foreach { e =>
