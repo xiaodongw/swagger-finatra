@@ -1,7 +1,7 @@
 package com.github.xiaodongw.swagger.finatra
 
 import io.swagger.models.parameters._
-import io.swagger.models.properties.RefProperty
+import io.swagger.models.properties.{ArrayProperty, RefProperty}
 import io.swagger.models._
 import io.swagger.util.Json
 import scala.collection.JavaConverters._
@@ -89,11 +89,7 @@ class FinatraOperation(operation: Operation) {
                            (implicit swagger: Swagger): Operation = {
     val schema = swagger.registerModel[T]
 
-    val model = schema match {
-      case null => null
-      case p: RefProperty => new RefModel(p.getSimpleRef)
-      case _ => null  //todo map ArrayProperty to ArrayModel?
-    }
+    val model = SchemaUtil.toModel(schema)
 
     //todo not working
     example.foreach { e =>

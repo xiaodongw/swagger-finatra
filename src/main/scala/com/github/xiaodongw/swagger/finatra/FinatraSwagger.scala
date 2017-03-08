@@ -228,11 +228,7 @@ class FinatraSwagger(swagger: Swagger) {
 
     val schema = registerModel(bodyClass, Some(name))
 
-    val model = schema match {
-      case null => null
-      case p: RefProperty => new RefModel(p.getSimpleRef)
-      case _ => null  //todo map ArrayProperty to ArrayModel?
-    }
+    val model = SchemaUtil.toModel(schema)
 
     Some(
       new BodyParameter().name("body").schema(model)
