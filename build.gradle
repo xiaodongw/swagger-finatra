@@ -1,7 +1,11 @@
+plugins {
+    id 'com.github.ben-manes.versions' version '0.14.0'
+}
+
 ext {
   scalaVersionMain = "2.11"
-  scalaVersion = "2.11.8"
-  finatraVersion = "2.7.0"
+  scalaVersion = "2.11.9"
+  finatraVersion = "2.9.0"
 }
 
 println("Scala Version: ${scalaVersion}")
@@ -19,13 +23,13 @@ repositories {
 
 dependencies {
   compile "org.scala-lang:scala-library:${scalaVersion}",
-    'io.swagger:swagger-core:1.5.12',
-    "io.swagger:swagger-scala-module_${scalaVersionMain}:1.0.2",
-    "org.webjars:swagger-ui:2.2.8",
-    'net.bytebuddy:byte-buddy:1.6.1'
+    'io.swagger:swagger-core:1.5.13',
+    "io.swagger:swagger-scala-module_${scalaVersionMain}:1.0.3",
+    "org.webjars:swagger-ui:3.0.4",
+    'net.bytebuddy:byte-buddy:1.6.12'
 
-  testCompile "org.scalatest:scalatest_${scalaVersionMain}:3.0.0",
-    'joda-time:joda-time:2.9.4'
+  testCompile "org.scalatest:scalatest_${scalaVersionMain}:3.0.1",
+    'joda-time:joda-time:2.9.9'
 
   compile "com.twitter:finatra-http_${scalaVersionMain}:${finatraVersion}"
 }
