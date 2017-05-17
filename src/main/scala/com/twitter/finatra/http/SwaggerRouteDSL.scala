@@ -68,7 +68,7 @@ trait SwaggerRouteDSL {
     val op = new Operation
     doc(op)
 
-    FinatraSwagger.convertToFinatraSwagger(swagger).registerOperation(path, method, op)
+    FinatraSwagger.convertToFinatraSwagger(swagger).registerOperation(dsl.contextVar().prefix + path, method, op)
   }
 }
 
