@@ -1,7 +1,7 @@
 package com.github.xiaodongw.swagger.finatra
 
 import com.twitter.finagle.http.Request
-import com.twitter.finatra.request.RouteParam
+import com.twitter.finatra.request.{QueryParam, RouteParam}
 import io.swagger.annotations.{ApiModel, ApiModelProperty}
 import javax.inject.Inject
 import org.joda.time.{DateTime, LocalDate}
@@ -14,6 +14,7 @@ case class Student(firstName: String, lastName: String, gender: Gender, birthday
 case class StudentWithRoute(
   @RouteParam id: String,
   @Inject request: Request,
+  @QueryParam
   firstName: String,
   lastName: String,
   gender: Gender,
@@ -31,6 +32,15 @@ case class StringWithRequest(
 object CourseType extends Enumeration {
   val LEC, LAB = Value
 }
+
+case class CourseRequest(
+  @QueryParam
+  @ApiModelProperty(
+    name = "max_capacity",
+    value = "Max capacity description"
+  )
+  maxCapacity: Int
+)
 
 case class Course(time: DateTime,
                   name: String,
