@@ -12,9 +12,10 @@ case class Address(street: String, zip: String)
 case class Student(firstName: String, lastName: String, gender: Gender, birthday: LocalDate, grade: Int, address: Option[Address])
 
 case class StudentWithRoute(
-  @RouteParam id: String,
+  @RouteParam
+  @ApiModelProperty(name = "student_id", value = "Id of the student")
+  id: String,
   @Inject request: Request,
-  @QueryParam
   firstName: String,
   lastName: String,
   gender: Gender,
@@ -32,15 +33,6 @@ case class StringWithRequest(
 object CourseType extends Enumeration {
   val LEC, LAB = Value
 }
-
-case class CourseRequest(
-  @QueryParam
-  @ApiModelProperty(
-    name = "max_capacity",
-    value = "Max capacity description"
-  )
-  maxCapacity: Int
-)
 
 case class Course(time: DateTime,
                   name: String,

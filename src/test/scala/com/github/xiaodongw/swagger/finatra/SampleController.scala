@@ -133,15 +133,6 @@ class SampleController extends Controller with SwaggerSupport {
     response.ok.json(Course(new DateTime(), "calculation", Seq("math"), CourseType.LAB, 20, BigDecimal(300.54))).toFuture
   }
 
-  getWithDoc("/courses/query") { o =>
-    o.summary("Query courses")
-      .tag("Course")
-      .request[CourseRequest]
-      .responseWith[Array[String]](200, "the courses ids")
-  } { request: CourseRequest =>
-    response.ok.json(Array("course1", "course2")).toFuture
-  }
-
   filter[SampleFilter].getWithDoc("/courses/:courseId/student/:studentId") { o =>
     o.summary("Is the student in this course")
       .tags(List("Course", "Student"))
