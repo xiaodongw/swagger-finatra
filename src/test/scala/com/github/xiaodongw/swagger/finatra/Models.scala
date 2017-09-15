@@ -1,7 +1,7 @@
 package com.github.xiaodongw.swagger.finatra
 
 import com.twitter.finagle.http.Request
-import com.twitter.finatra.request.RouteParam
+import com.twitter.finatra.request.{QueryParam, RouteParam}
 import io.swagger.annotations.{ApiModel, ApiModelProperty}
 import javax.inject.Inject
 import org.joda.time.{DateTime, LocalDate}
@@ -12,7 +12,9 @@ case class Address(street: String, zip: String)
 case class Student(firstName: String, lastName: String, gender: Gender, birthday: LocalDate, grade: Int, address: Option[Address])
 
 case class StudentWithRoute(
-  @RouteParam id: String,
+  @RouteParam
+  @ApiModelProperty(name = "student_id", value = "Id of the student")
+  id: String,
   @Inject request: Request,
   firstName: String,
   lastName: String,
